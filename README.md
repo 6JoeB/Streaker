@@ -16,7 +16,6 @@ Habit tracker with a widget that shows your current streak
   - [ ] Cancel button
 - [ ] Edit habit screen
   - [ ] Name (cannot repeat)
-  - [ ] Emoji
   - [ ] Frequency aim per week (1 to 7 days)
   - [ ] Update habit button
   - [ ] Cancel button
