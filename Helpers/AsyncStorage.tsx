@@ -18,12 +18,12 @@ export const getDataObject = async (key: string) => {
   }
 };
 
-export const getAllKeys = async () => {
+export const getAllKeys = async setAsyncStorageKeys => {
   let keys: string[] = [];
   try {
     keys = await AsyncStorage.getAllKeys();
   } catch (e) {
     console.error('Error returning all data objects in AsyncStorage: ' + e);
   }
-  return keys;
+  setAsyncStorageKeys(keys);
 };
