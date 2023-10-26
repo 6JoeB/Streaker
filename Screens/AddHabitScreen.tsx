@@ -1,32 +1,47 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Button, TextInput, StyleSheet} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const AddHabitScreen = ({navigation}) => {
-  const [newHabitData, setNewHabitData] = useState({
-    name: '',
-    daysPerWeek: '',
-  });
+  const [habitName, setHabitName] = useState('');
+  const [habitDaysPerWeek, setHabitDaysPerWeek] = useState(5);
 
-  useEffect(() => {
-    console.log(newHabitData);
-  }, [newHabitData]);
+  const updateHabitsDaysPerWeekValue = (increase: boolean) => {
+    if (increase && habitDaysPerWeek < 7) {
+      setHabitDaysPerWeek(habitDaysPerWeek + 1);
+    } else if (!increase && habitDaysPerWeek > 1) {
+      setHabitDaysPerWeek(habitDaysPerWeek - 1);
+    }
+  };
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Add Habit</Text>
-      <Text>Name:</Text>
+    <View>
+      <Text>Add a new habit</Text>
+      <Text>Name of habit</Text>
       <TextInput
         style={styles.input}
-        onChangeText={e => setNewHabitData({...newHabitData, name: e})}
-        value={newHabitData.name}
-        placeholder="Habit name"
+        onChangeText={(e: string) => setHabitName(e)}
+        value={habitName}
+        placeholder="Habit name here"
       />
-      <Text>How many days per week would you like do this:</Text>
-      // Create 1 to 7 days numeric input here //
-      {/* Number(newHabitData.daysPerWeek)
-      e => setNewHabitData({...newHabitData, daysPerWeek: String(e)} */}
-      <Button title="Add" onPress={() => navigation.navigate('home')} />
-      <Button title="Cancel" onPress={() => navigation.navigate('home')} />
+      <Text>How many days per week would you like do this</Text>
+      <View>
+        <Icon
+          name="plus"
+          size={30}
+          color="black"
+          onPress={() => updateHabitsDaysPerWeekValue(true)}
+        />
+        <Icon
+          name="minus"
+          size={30}
+          color="black"
+          onPress={() => updateHabitsDaysPerWeekValue(false)}
+        />
+        <Text>{habitDaysPerWeek}</Text>
+      </View>
+      <Button title="Add" onPress={() => navigation.navigate('Home')} />
+      <Button title="Cancel" onPress={() => navigation.navigate('Home')} />
     </View>
   );
 };
