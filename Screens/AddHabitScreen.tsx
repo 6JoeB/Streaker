@@ -34,6 +34,7 @@ const AddHabitScreen = ({navigation, route}) => {
         name: habitName,
         daysPerWeek: habitDaysPerWeek,
       });
+      navigation.navigate('Home');
     }
   };
 

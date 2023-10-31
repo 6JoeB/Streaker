@@ -5,25 +5,37 @@ export const storeDataObject = async (key: string, value: object) => {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(key, jsonValue);
   } catch (e) {
-    console.error('Error storing data object in AsyncStorage: ' + e);
+    console.error('Error storing data object in AsyncStorage, error: ' + e);
   }
 };
 
-export const getDataObject = async (key: string) => {
+export const getDataObject = async (key: string, data: any[], setData: any) => {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
+    return jsonValue != null ? setData([...data, JSON.parse(jsonValue)]) : null;
   } catch (e) {
-    console.error('Error returning data object in AsyncStorage: ' + e);
+    console.error('Error returning data object in AsyncStorage, error: ' + e);
   }
 };
 
-export const getAllKeys = async setAsyncStorageKeys => {
+export const getDataObjects = async (keys, setData) => {
+  try {
+    let values = await Promise.all(keys.map(key => AsyncStorage.getItem(key)));
+    values = values.map(value => JSON.parse(value));
+    setData(prev => [...prev, values.filter(v => v !== null)]);
+  } catch (e) {
+    console.error('Error returning data objects in AsyncStorage, error: ' + e);
+  }
+};
+
+export const getAllKeys = async (setAsyncStorageKeys: any) => {
   let keys: string[] = [];
   try {
     keys = await AsyncStorage.getAllKeys();
   } catch (e) {
-    console.error('Error returning all data objects in AsyncStorage: ' + e);
+    console.error(
+      'Error returning all data objects in AsyncStorage, error: ' + e,
+    );
   }
   setAsyncStorageKeys(keys);
 };

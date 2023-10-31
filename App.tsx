@@ -18,11 +18,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          initialParams={{asyncStorageKeys}}
-          component={HomeScreen}
-        />
+        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen
           name="Add Habit"
           initialParams={{asyncStorageKeys}}
