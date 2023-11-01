@@ -41,3 +41,12 @@ export const getAllKeys = async (setAsyncStorageKeys: any) => {
   }
   setAsyncStorageKeys(keys);
 };
+
+export const removeValue = async (key: string) => {
+  try {
+    await AsyncStorage.removeItem(key);
+    return true;
+  } catch (e) {
+    console.error('Error removing key, ' + e);
+  }
+};
