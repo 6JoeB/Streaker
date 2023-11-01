@@ -18,12 +18,24 @@ export const getDataObject = async (key: string, data: any[], setData: any) => {
   }
 };
 
-export const getDataObjects = async (keys, setData) => {
+export const getDataObjects = async (keys, data, setData) => {
   try {
     const values = await Promise.all(
-      keys.map(key => AsyncStorage.getItem(key).then(v => JSON.parse(v))),
+      keys.map(key => AsyncStorage.getItem(key).then(data => JSON.parse(data))),
     );
-    setData(prev => [...prev, ...values.filter(v => v !== null)]);
+
+    if (data !== undefined) {
+      let i = values.length;
+      while (i--) {
+        data.forEach(element => {
+          if (values[i].name === element.name) {
+            values.splice(i, 1);
+          }
+        });
+      }
+    }
+
+    setData(prev => [...prev, ...values.filter(item => item !== null)]);
   } catch (e) {
     console.error('Error returning data objects in AsyncStorage, error: ' + e);
   }
