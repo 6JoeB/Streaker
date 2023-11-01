@@ -20,9 +20,10 @@ export const getDataObject = async (key: string, data: any[], setData: any) => {
 
 export const getDataObjects = async (keys, setData) => {
   try {
-    let values = await Promise.all(keys.map(key => AsyncStorage.getItem(key)));
-    values = values.map(value => JSON.parse(value));
-    setData(prev => [...prev, values.filter(v => v !== null)]);
+    const values = await Promise.all(
+      keys.map(key => AsyncStorage.getItem(key).then(v => JSON.parse(v))),
+    );
+    setData(prev => [...prev, ...values.filter(v => v !== null)]);
   } catch (e) {
     console.error('Error returning data objects in AsyncStorage, error: ' + e);
   }
