@@ -8,7 +8,9 @@ Habit tracker with a widget that shows your current streak
 
 - [ ] Home screen: Shows current habits being tracked
   - [x] Add habit button links to add habit screen
-  - [ ] Each habit display in module which can be clicked for expanded view.
+  - [x] Each habit display in module which can be clicked for expanded view.
+    - [x] Name
+    - [ ] Current streak
   - [ ] Styling
 - [ ] Add habit screen
   - [x] Name (cannot repeat)
@@ -23,9 +25,9 @@ Habit tracker with a widget that shows your current streak
   - [ ] Cancel button
   - [ ] Styling
 - [ ] View habit screen
-  - [ ] Show Name, colour, emoji, frequency, current streak, total days achieved
+  - [ ] Show Name, frequency, current streak, total days achieved
   - [ ] Click edit button to open edit habit screen
-  - [ ] Click delete button to remove habit
+  - [x] Click delete button to remove habit
   - [ ] Calender
     - [ ] Today highlighted
     - [ ] Showing days habit achieved in green
