@@ -9,21 +9,11 @@ import {getAllKeys} from './Helpers/AsyncStorage';
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const [asyncStorageKeys, setAsyncStorageKeys] = useState([]);
-
-  useEffect(() => {
-    getAllKeys(setAsyncStorageKeys);
-  }, []);
-
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen
-          name="Add Habit"
-          initialParams={{asyncStorageKeys}}
-          component={AddHabitScreen}
-        />
+        <Stack.Screen name="Add Habit" component={AddHabitScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

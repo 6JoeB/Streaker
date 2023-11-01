@@ -1,14 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Button, TextInput, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {storeDataObject} from '../Helpers/AsyncStorage';
+import {useIsFocused} from '@react-navigation/native';
 
-const AddHabitScreen = ({navigation, route}) => {
+import {getAllKeys, storeDataObject} from '../Helpers/AsyncStorage';
+
+const AddHabitScreen = ({navigation}) => {
   const [habitName, setHabitName] = useState('');
   const [habitDaysPerWeek, setHabitDaysPerWeek] = useState(5);
   const [nameInputError, setNameInputError] = useState(false);
+  const [asyncStorageKeys, setAsyncStorageKeys] = useState([]);
 
-  let asyncStorageKeys: [] = route.params.asyncStorageKeys;
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      getAllKeys(setAsyncStorageKeys);
+    }
+  }, [isFocused]);
 
   const updateHabitsDaysPerWeekValue = (increase: boolean) => {
     if (increase && habitDaysPerWeek < 7) {
@@ -20,21 +29,19 @@ const AddHabitScreen = ({navigation, route}) => {
 
   const addHabit = () => {
     setNameInputError(false);
-    if (habitName.length < 1) {
-      setNameInputError(true);
-      return;
-    }
-
-    let duplicateKey = asyncStorageKeys.filter(obj => {
-      return obj.key === habitName;
+    const duplicateKey = asyncStorageKeys.filter(obj => {
+      return obj === habitName;
     });
 
-    if (duplicateKey.length === 0) {
+    if (duplicateKey.length === 0 && habitName.length > 1) {
       storeDataObject(habitName, {
         name: habitName,
         daysPerWeek: habitDaysPerWeek,
       });
       navigation.navigate('Home');
+    } else {
+      setNameInputError(true);
+      return;
     }
   };
 
