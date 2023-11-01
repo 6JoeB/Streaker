@@ -39,3 +39,5 @@ Habit tracker with a widget that shows your current streak
 - [ ] Habits can have:
   - [ ] Colour
   - [ ] Emoji
+  - [ ] Complete total minutes per week instead of days
+  - [ ] Breaking a habit options (like smoking etc)
