@@ -17,7 +17,7 @@ const HomeScreen = ({navigation}) => {
   }, [isFocused]);
 
   useEffect(() => {
-    getDataObjects(asyncStorageKeys, habits, setHabits);
+    getDataObjects(asyncStorageKeys, setHabits);
   }, [asyncStorageKeys]);
 
   return (
@@ -29,7 +29,6 @@ const HomeScreen = ({navigation}) => {
               onPress={() =>
                 navigation.navigate('Habit Details', {
                   name: habit.name,
-                  daysPerWeek: habit.daysPerWeek,
                 })
               }>
               {habit.name} {habit.daysPerWeek}
