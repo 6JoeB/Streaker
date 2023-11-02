@@ -55,7 +55,17 @@ export const setObjectValue = async (key: string, value: object) => {
   try {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(key, jsonValue);
+    return true;
   } catch (e) {
     console.error('Error updating key, ' + e);
+  }
+};
+
+export const clearAll = async () => {
+  try {
+    await AsyncStorage.clear();
+    console.log('cleared');
+  } catch (e) {
+    console.error('Error clearing all, ' + e);
   }
 };
