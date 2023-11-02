@@ -29,7 +29,7 @@ Habit tracker with a widget that shows your current streak
   - [ ] Click edit button to open edit habit screen
   - [x] Click delete button to remove habit
   - [ ] Calender
-    - [ ] Today highlighted
+    - [x] Today highlighted
     - [ ] Showing days habit achieved in green
     - [ ] Click day to toggle habit achieved/habit not achieved
   - [ ] Styling
@@ -48,3 +48,5 @@ Habit tracker with a widget that shows your current streak
   - [ ] Emoji
   - [ ] Complete total minutes per week instead of days
   - [ ] Breaking a habit options (like smoking etc)
+- [ ] Streak time achievments (6 weeks etc)
+- [ ] Streak time leaderboard
