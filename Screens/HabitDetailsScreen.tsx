@@ -11,7 +11,7 @@ import {useIsFocused} from '@react-navigation/native';
 export const HabitDetailsScreen = ({navigation, route}) => {
   const {name} = route.params;
 
-  const [activeDays, setActiveDays] = useState([]);
+  const [completedDays, setCompletedDays] = useState([]);
   const [habit, setHabit] = useState({});
   const [futureDateError, setFutureDateError] = useState(false);
 
@@ -25,26 +25,26 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   useEffect(() => {
     if (Object.hasOwn(habit, 'name')) {
-      setActiveDays(habit.activeDays);
+      setCompletedDays(habit.completedDays);
     }
   }, [habit]);
 
   useEffect(() => {
-    if (activeDays !== undefined && activeDays !== habit.activeDays) {
+    if (completedDays !== undefined && completedDays !== habit.completedDays) {
       updateHabit();
     }
-  }, [activeDays]);
+  }, [completedDays]);
 
-  const updateActiveDays = (day: string) => {
+  const updateCompletedDays = (day: string) => {
     setFutureDateError(false);
-    if (activeDays === undefined) {
-      setActiveDays([day]); // add first day
-    } else if (activeDays.includes(day)) {
-      setActiveDays(activeDays.filter(item => item !== day)); // remove day
+    if (completedDays === undefined) {
+      setCompletedDays([day]); // add first day
+    } else if (completedDays.includes(day)) {
+      setCompletedDays(completedDays.filter(item => item !== day)); // remove day
     } else if (new Date() <= new Date(day)) {
       setFutureDateError(true); // catch future date
     } else {
-      setActiveDays(prev => [...prev, day]); // add new day
+      setCompletedDays(prev => [...prev, day]); // add new day
     }
   };
 
@@ -52,7 +52,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
     const success = await setObjectValue(habit.name, {
       name: habit.name,
       daysPerWeek: habit.daysPerWeek,
-      activeDays: activeDays,
+      completedDays: completedDays,
     });
     if (success) {
       getDataObject(name, setHabit);
@@ -68,8 +68,8 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   const generateMarkedDates = () => {
     let markedDates = {};
-    if (activeDays !== undefined) {
-      activeDays.forEach(date => {
+    if (completedDays !== undefined) {
+      completedDays.forEach(date => {
         markedDates[date] = {selected: true, selectedColor: '#00cc66'};
       });
     }
@@ -85,7 +85,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
           {futureDateError && <Text>That day is in the future!</Text>}
           <Calendar
             onDayPress={day => {
-              updateActiveDays(day.dateString);
+              updateCompletedDays(day.dateString);
             }}
             markedDates={generateMarkedDates()}
             theme={{todayTextColor: 'black', todayBackgroundColor: '#d9d9d9'}}

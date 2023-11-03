@@ -37,7 +37,7 @@ const AddHabitScreen = ({navigation}) => {
       storeDataObject(habitName, {
         name: habitName,
         daysPerWeek: habitDaysPerWeek,
-        activeDays: [],
+        completedDays: [],
       });
       navigation.navigate('Home');
     } else {
