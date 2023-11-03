@@ -13,6 +13,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   const [activeDays, setActiveDays] = useState([]);
   const [habit, setHabit] = useState({});
+  const [futureDateError, setFutureDateError] = useState(false);
 
   const isFocused = useIsFocused();
   const isMountingRef = useRef(false);
@@ -37,10 +38,13 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   }, [activeDays]);
 
   const updateActiveDays = (day: string) => {
+    setFutureDateError(false);
     if (activeDays === undefined) {
       setActiveDays([day]); // add first day
     } else if (activeDays.includes(day)) {
       setActiveDays(activeDays.filter(item => item !== day)); // remove day
+    } else if (new Date() <= new Date(day)) {
+      setFutureDateError(true);
     } else {
       setActiveDays(prev => [...prev, day]); // add new day
     }
@@ -80,6 +84,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
         <View>
           <Text>{habit.name}</Text>
           <Text>{habit.daysPerWeek}</Text>
+          {futureDateError && <Text>That day is in the future!</Text>}
           <Calendar
             onDayPress={day => {
               updateActiveDays(day.dateString);
@@ -87,7 +92,6 @@ export const HabitDetailsScreen = ({navigation, route}) => {
             markedDates={generateMarkedDates()}
             theme={{todayTextColor: 'black', todayBackgroundColor: '#d9d9d9'}}
           />
-          <Button title="log" onPress={() => updateHabit()} />
           <Button title="Delete Habit" onPress={() => deleteHabit()} />
         </View>
       )}
