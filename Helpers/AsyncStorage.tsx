@@ -9,16 +9,16 @@ export const storeDataObject = async (key: string, value: object) => {
   }
 };
 
-export const getDataObject = async (key: string, data: any[], setData: any) => {
+export const getDataObject = async (key: string, setData: any) => {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
-    return jsonValue != null ? setData([...data, JSON.parse(jsonValue)]) : null;
+    return jsonValue != null ? setData(JSON.parse(jsonValue)) : null;
   } catch (e) {
     console.error('Error returning data object in AsyncStorage, ' + e);
   }
 };
 
-export const getDataObjects = async (keys, data, setData) => {
+export const getDataObjects = async (keys, setData) => {
   try {
     const values = await Promise.all(
       keys.map(key =>
@@ -48,5 +48,24 @@ export const removeValue = async (key: string) => {
     return true;
   } catch (e) {
     console.error('Error removing key, ' + e);
+  }
+};
+
+export const setObjectValue = async (key: string, value: object) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem(key, jsonValue);
+    return true;
+  } catch (e) {
+    console.error('Error updating key, ' + e);
+  }
+};
+
+export const clearAll = async () => {
+  try {
+    await AsyncStorage.clear();
+    console.log('cleared');
+  } catch (e) {
+    console.error('Error clearing all, ' + e);
   }
 };

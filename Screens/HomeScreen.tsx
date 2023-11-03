@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 
-import {getAllKeys, getDataObjects} from '../Helpers/AsyncStorage';
+import {clearAll, getAllKeys, getDataObjects} from '../Helpers/AsyncStorage';
 
 const HomeScreen = ({navigation}) => {
   const [habits, setHabits] = useState([]);
@@ -17,7 +17,7 @@ const HomeScreen = ({navigation}) => {
   }, [isFocused]);
 
   useEffect(() => {
-    getDataObjects(asyncStorageKeys, habits, setHabits);
+    getDataObjects(asyncStorageKeys, setHabits);
   }, [asyncStorageKeys]);
 
   return (
@@ -29,7 +29,6 @@ const HomeScreen = ({navigation}) => {
               onPress={() =>
                 navigation.navigate('Habit Details', {
                   name: habit.name,
-                  daysPerWeek: habit.daysPerWeek,
                 })
               }>
               {habit.name} {habit.daysPerWeek}
