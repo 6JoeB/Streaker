@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 import {
   getDataObject,
@@ -16,8 +16,6 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   const [futureDateError, setFutureDateError] = useState(false);
 
   const isFocused = useIsFocused();
-  const isMountingRef = useRef(false);
-  isMountingRef.current = true;
 
   useEffect(() => {
     if (isFocused) {
@@ -44,7 +42,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
     } else if (activeDays.includes(day)) {
       setActiveDays(activeDays.filter(item => item !== day)); // remove day
     } else if (new Date() <= new Date(day)) {
-      setFutureDateError(true);
+      setFutureDateError(true); // catch future date
     } else {
       setActiveDays(prev => [...prev, day]); // add new day
     }
