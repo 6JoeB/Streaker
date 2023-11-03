@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {View, Text, Button} from 'react-native';
 import {
   getDataObject,
@@ -6,6 +6,7 @@ import {
   setObjectValue,
 } from '../Helpers/AsyncStorage';
 import {Calendar} from 'react-native-calendars';
+import {useIsFocused} from '@react-navigation/native';
 
 export const HabitDetailsScreen = ({navigation, route}) => {
   const {name} = route.params;
@@ -13,29 +14,47 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   const [activeDays, setActiveDays] = useState([]);
   const [habit, setHabit] = useState({});
 
-  useEffect(() => {
-    getDataObject(name, setHabit);
-  }, []);
+  const isFocused = useIsFocused();
+  const isMountingRef = useRef(false);
+  isMountingRef.current = true;
 
   useEffect(() => {
-    console.log(activeDays);
+    if (isFocused) {
+      getDataObject(name, setHabit);
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (Object.hasOwn(habit, 'name')) {
+      setActiveDays(habit.activeDays);
+    }
+  }, [habit]);
+
+  useEffect(() => {
+    if (activeDays !== undefined && activeDays !== habit.activeDays) {
+      updateHabit();
+    }
   }, [activeDays]);
 
-  //   useEffect(() => {
-  // updateHabit()  }, [activeDays]);
-
   const updateActiveDays = (day: string) => {
-    activeDays.includes(day)
-      ? setActiveDays(activeDays.filter(item => item !== day))
-      : setActiveDays(prev => [...prev, day]);
+    if (activeDays === undefined) {
+      setActiveDays([day]); // add first day
+    } else if (activeDays.includes(day)) {
+      setActiveDays(activeDays.filter(item => item !== day)); // remove day
+    } else {
+      setActiveDays(prev => [...prev, day]); // add new day
+    }
   };
 
-  const updateHabit = () => {
-    setObjectValue(name, {
+  const updateHabit = async () => {
+    const success = await setObjectValue(habit.name, {
       name: habit.name,
       daysPerWeek: habit.daysPerWeek,
       activeDays: activeDays,
     });
+    if (success) {
+      getDataObject(name, setHabit);
+    }
   };
 
   const deleteHabit = async () => {
@@ -47,9 +66,11 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   const generateMarkedDates = () => {
     let markedDates = {};
-    activeDays.forEach(date => {
-      markedDates[date] = {selected: true, selectedColor: '#00cc66'};
-    });
+    if (activeDays !== undefined) {
+      activeDays.forEach(date => {
+        markedDates[date] = {selected: true, selectedColor: '#00cc66'};
+      });
+    }
     return markedDates;
   };
 
@@ -66,6 +87,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
             markedDates={generateMarkedDates()}
             theme={{todayTextColor: 'black', todayBackgroundColor: '#d9d9d9'}}
           />
+          <Button title="log" onPress={() => updateHabit()} />
           <Button title="Delete Habit" onPress={() => deleteHabit()} />
         </View>
       )}

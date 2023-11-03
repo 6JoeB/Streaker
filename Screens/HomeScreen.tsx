@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 
-import {getAllKeys, getDataObjects} from '../Helpers/AsyncStorage';
+import {clearAll, getAllKeys, getDataObjects} from '../Helpers/AsyncStorage';
 
 const HomeScreen = ({navigation}) => {
   const [habits, setHabits] = useState([]);
