@@ -28,7 +28,7 @@ Habit tracker with a widget that shows your current streak
   - [ ] Show Name, frequency, current streak, total days achieved
   - [ ] Click edit button to open edit habit screen
   - [x] Click delete button to remove habit
-  - [ ] Calender
+  - [x] Calender
     - [x] Today highlighted
     - [x] Showing days habit achieved in green
     - [x] Click day to toggle habit achieved/habit not achieved
@@ -51,3 +51,5 @@ Habit tracker with a widget that shows your current streak
 - [ ] Streak time achievments (6 weeks etc)
 - [ ] Streak time leaderboard
 - [ ] Habit detail screen loading spinner
+- [ ] View habit screen
+  - [ ] Best streak
