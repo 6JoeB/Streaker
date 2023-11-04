@@ -119,7 +119,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
           return;
         }
 
-        // Check if the date has been missed in a week time span
+        // Check if the date has been missed in a week time span excluding todays date
         if (
           !ascendingCompletedDays.includes(date) &&
           date !== new Date().toISOString().slice(0, 10)
@@ -137,8 +137,6 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
       // Set streak to 0 if too many days have been missed
       if (weeksMissedDates > allowedMissingDays) {
-        console.log(weeksMissedDates);
-        console.log(allowedMissingDays);
         streak = 0;
         dateToCheckStreakFromString = ascendingCompletedDays[0];
       }
