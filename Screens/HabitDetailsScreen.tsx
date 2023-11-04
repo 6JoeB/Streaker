@@ -31,8 +31,11 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   }, [habit]);
 
   useEffect(() => {
-    if (completedDays !== undefined && completedDays !== habit.completedDays) {
-      updateHabit();
+    if (completedDays !== undefined) {
+      calculateCurrentStreak();
+      if (completedDays !== habit.completedDays) {
+        updateHabit();
+      }
     }
   }, [completedDays]);
 
@@ -146,10 +149,6 @@ export const HabitDetailsScreen = ({navigation, route}) => {
             theme={{todayTextColor: 'black', todayBackgroundColor: '#d9d9d9'}}
           />
           <Button title="Delete Habit" onPress={() => deleteHabit()} />
-          <Button
-            title="streak calc"
-            onPress={() => calculateCurrentStreak()}
-          />
         </View>
       )}
     </View>
