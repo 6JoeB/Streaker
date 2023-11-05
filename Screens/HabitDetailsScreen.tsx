@@ -15,6 +15,8 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   const [habit, setHabit] = useState({});
   const [futureDateError, setFutureDateError] = useState(false);
   const [currentStreak, setCurrentStreak] = useState(0);
+  const [bestStreak, setBestStreak] = useState(0);
+  const [totalDaysCompleted, setTotalDaysCompleted] = useState(0);
 
   const isFocused = useIsFocused();
 
@@ -33,6 +35,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   useEffect(() => {
     if (completedDays !== undefined) {
       calculateCurrentStreak();
+      setTotalDaysCompleted(completedDays.length);
       if (completedDays !== habit.completedDays) {
         updateHabit();
       }
@@ -91,6 +94,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
     // Check if there is a streak within the allowed missing days
     const allowedMissingDays: number = 7 - habit.daysPerWeek;
     let streak: number = 0;
+    let possibleBestStreak: number = 0;
     let dateToCheckStreakFromString: string = ascendingCompletedDays[0];
 
     while (ascendingCompletedDays.length > 0) {
@@ -132,6 +136,9 @@ export const HabitDetailsScreen = ({navigation, route}) => {
         if (index > -1) {
           streak++;
           ascendingCompletedDays.splice(index, 1);
+          if (streak > possibleBestStreak) {
+            possibleBestStreak = streak;
+          }
         }
       });
 
@@ -142,6 +149,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       }
     }
 
+    setBestStreak(possibleBestStreak);
     setCurrentStreak(streak);
   };
 
@@ -150,8 +158,10 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       {habit !== undefined && (
         <View>
           <Text>{habit.name}</Text>
-          <Text>{habit.daysPerWeek}</Text>
-          <Text>current streak is {currentStreak}</Text>
+          <Text>Weekly aim:{habit.daysPerWeek}</Text>
+          <Text>Total days completed: {totalDaysCompleted}</Text>
+          <Text>Current streak: {currentStreak}</Text>
+          <Text>Best streak: {bestStreak}</Text>
           {futureDateError && <Text>That day is in the future!</Text>}
           <Calendar
             onDayPress={day => {
