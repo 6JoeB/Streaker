@@ -3,7 +3,7 @@ import {View, Text, Button, TextInput, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useIsFocused} from '@react-navigation/native';
 
-import {getAllKeys, storeDataObject} from '../Helpers/AsyncStorage';
+import {getAllKeys, storeDataObject} from '../utils/AsyncStorage';
 
 const AddHabitScreen = ({navigation}) => {
   const [habitName, setHabitName] = useState('');
