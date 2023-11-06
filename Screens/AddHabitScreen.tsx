@@ -3,7 +3,7 @@ import {View, Text, Button, TextInput, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useIsFocused} from '@react-navigation/native';
 
-import {getAllKeys, storeDataObject} from '../Helpers/AsyncStorage';
+import {getAllKeys, storeDataObject} from '../utils/AsyncStorage';
 
 const AddHabitScreen = ({navigation}) => {
   const [habitName, setHabitName] = useState('');
@@ -37,7 +37,10 @@ const AddHabitScreen = ({navigation}) => {
       storeDataObject(habitName, {
         name: habitName,
         daysPerWeek: habitDaysPerWeek,
-        activeDays: [],
+        completedDays: [],
+        currentStreak: 0,
+        bestStreak: 0,
+        totalDaysCompleted: 0,
       });
       navigation.navigate('Home');
     } else {

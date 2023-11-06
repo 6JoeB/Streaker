@@ -1,22 +1,25 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 import {
   getDataObject,
   removeValue,
   setObjectValue,
-} from '../Helpers/AsyncStorage';
+} from '../utils/AsyncStorage';
 import {Calendar} from 'react-native-calendars';
 import {useIsFocused} from '@react-navigation/native';
+import {calculateCurrentStreak} from '../utils/HabitStreakHelper';
 
 export const HabitDetailsScreen = ({navigation, route}) => {
   const {name} = route.params;
 
-  const [activeDays, setActiveDays] = useState([]);
+  const [completedDays, setCompletedDays] = useState([]);
   const [habit, setHabit] = useState({});
+  const [futureDateError, setFutureDateError] = useState(false);
+  const [currentStreak, setCurrentStreak] = useState(0);
+  const [bestStreak, setBestStreak] = useState(0);
+  const [totalDaysCompleted, setTotalDaysCompleted] = useState(0);
 
   const isFocused = useIsFocused();
-  const isMountingRef = useRef(false);
-  isMountingRef.current = true;
 
   useEffect(() => {
     if (isFocused) {
@@ -26,23 +29,35 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   useEffect(() => {
     if (Object.hasOwn(habit, 'name')) {
-      setActiveDays(habit.activeDays);
+      setCompletedDays(habit.completedDays);
     }
   }, [habit]);
 
   useEffect(() => {
-    if (activeDays !== undefined && activeDays !== habit.activeDays) {
-      updateHabit();
+    if (completedDays !== undefined) {
+      calculateCurrentStreak(
+        completedDays,
+        habit,
+        setBestStreak,
+        setCurrentStreak,
+      );
+      setTotalDaysCompleted(completedDays.length);
+      if (completedDays !== habit.completedDays) {
+        updateHabit();
+      }
     }
-  }, [activeDays]);
+  }, [completedDays]);
 
-  const updateActiveDays = (day: string) => {
-    if (activeDays === undefined) {
-      setActiveDays([day]); // add first day
-    } else if (activeDays.includes(day)) {
-      setActiveDays(activeDays.filter(item => item !== day)); // remove day
+  const updateCompletedDays = (day: string) => {
+    setFutureDateError(false);
+    if (completedDays === undefined) {
+      setCompletedDays([day]); // add first day
+    } else if (completedDays.includes(day)) {
+      setCompletedDays(completedDays.filter(item => item !== day)); // remove day
+    } else if (new Date() <= new Date(day)) {
+      setFutureDateError(true); // catch future date
     } else {
-      setActiveDays(prev => [...prev, day]); // add new day
+      setCompletedDays(prev => [...prev, day]); // add new day
     }
   };
 
@@ -50,7 +65,10 @@ export const HabitDetailsScreen = ({navigation, route}) => {
     const success = await setObjectValue(habit.name, {
       name: habit.name,
       daysPerWeek: habit.daysPerWeek,
-      activeDays: activeDays,
+      completedDays: completedDays,
+      currentStreak: currentStreak,
+      bestStreak: bestStreak,
+      totalDaysCompleted: totalDaysCompleted,
     });
     if (success) {
       getDataObject(name, setHabit);
@@ -66,8 +84,8 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   const generateMarkedDates = () => {
     let markedDates = {};
-    if (activeDays !== undefined) {
-      activeDays.forEach(date => {
+    if (completedDays !== undefined) {
+      completedDays.forEach(date => {
         markedDates[date] = {selected: true, selectedColor: '#00cc66'};
       });
     }
@@ -79,15 +97,19 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       {habit !== undefined && (
         <View>
           <Text>{habit.name}</Text>
-          <Text>{habit.daysPerWeek}</Text>
+          <Text>Weekly aim:{habit.daysPerWeek}</Text>
+          <Text>Total days completed: {totalDaysCompleted}</Text>
+          <Text>Current streak: {currentStreak}</Text>
+          <Text>Best streak: {bestStreak}</Text>
+          {futureDateError && <Text>That day is in the future!</Text>}
           <Calendar
             onDayPress={day => {
-              updateActiveDays(day.dateString);
+              updateCompletedDays(day.dateString);
             }}
             markedDates={generateMarkedDates()}
+            firstDay={1}
             theme={{todayTextColor: 'black', todayBackgroundColor: '#d9d9d9'}}
           />
-          <Button title="log" onPress={() => updateHabit()} />
           <Button title="Delete Habit" onPress={() => deleteHabit()} />
         </View>
       )}

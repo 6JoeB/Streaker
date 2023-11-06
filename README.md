@@ -10,7 +10,7 @@ Habit tracker with a widget that shows your current streak
   - [x] Add habit button links to add habit screen
   - [x] Each habit display in module which can be clicked for expanded view.
     - [x] Name
-    - [ ] Current streak
+    - [x] Current streak
   - [ ] Styling
 - [ ] Add habit screen
   - [x] Name (cannot repeat)
@@ -25,10 +25,13 @@ Habit tracker with a widget that shows your current streak
   - [ ] Cancel button
   - [ ] Styling
 - [ ] View habit screen
-  - [ ] Show Name, frequency, current streak, total days achieved
+  - [x] Show Name, frequency
+  - [x] Current streak
+  - [x] Total days achieved
+  - [x] Best streak
   - [ ] Click edit button to open edit habit screen
   - [x] Click delete button to remove habit
-  - [ ] Calender
+  - [x] Calender
     - [x] Today highlighted
     - [x] Showing days habit achieved in green
     - [x] Click day to toggle habit achieved/habit not achieved
@@ -51,3 +54,5 @@ Habit tracker with a widget that shows your current streak
 - [ ] Streak time achievments (6 weeks etc)
 - [ ] Streak time leaderboard
 - [ ] Habit detail screen loading spinner
+- [ ] View habit screen
+  - [ ] Best streak
