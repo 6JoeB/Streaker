@@ -10,7 +10,7 @@ Habit tracker with a widget that shows your current streak
   - [x] Add habit button links to add habit screen
   - [x] Each habit display in module which can be clicked for expanded view.
     - [x] Name
-    - [ ] Current streak
+    - [x] Current streak
   - [ ] Styling
 - [ ] Add habit screen
   - [x] Name (cannot repeat)

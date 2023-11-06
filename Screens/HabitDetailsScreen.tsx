@@ -66,6 +66,9 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       name: habit.name,
       daysPerWeek: habit.daysPerWeek,
       completedDays: completedDays,
+      currentStreak: currentStreak,
+      bestStreak: bestStreak,
+      totalDaysCompleted: totalDaysCompleted,
     });
     if (success) {
       getDataObject(name, setHabit);

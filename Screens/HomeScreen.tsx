@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, TouchableOpacity} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 
 import {getAllKeys, getDataObjects} from '../utils/AsyncStorage';
@@ -20,20 +20,26 @@ const HomeScreen = ({navigation}) => {
     getDataObjects(asyncStorageKeys, setHabits);
   }, [asyncStorageKeys]);
 
+  useEffect(() => {
+    console.log(habits);
+  }, [habits]);
+
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       {asyncStorageKeys.length > 0 && habits.length > 0 ? (
         habits.map(habit => (
-          <View>
-            <Text
-              onPress={() =>
-                navigation.navigate('Habit Details', {
-                  name: habit.name,
-                })
-              }>
-              {habit.name} {habit.daysPerWeek}
-            </Text>
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Habit Details', {
+                name: habit.name,
+              })
+            }>
+            <Text>{habit.name}</Text>
+            <Text>Aim: {habit.daysPerWeek} </Text>
+            <Text>Best streak: {habit.bestStreak} </Text>
+            <Text>Completed days: {habit.completedDays.length} </Text>
+            <Text>Current streak: {habit.currentStreak} </Text>
+          </TouchableOpacity>
         ))
       ) : (
         <Text>Habits will show here once one is created</Text>

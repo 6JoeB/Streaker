@@ -38,6 +38,9 @@ const AddHabitScreen = ({navigation}) => {
         name: habitName,
         daysPerWeek: habitDaysPerWeek,
         completedDays: [],
+        currentStreak: 0,
+        bestStreak: 0,
+        totalDaysCompleted: 0,
       });
       navigation.navigate('Home');
     } else {
