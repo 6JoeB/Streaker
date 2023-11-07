@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, StyleSheet} from 'react-native';
+import {Calendar} from 'react-native-calendars';
+import {useIsFocused} from '@react-navigation/native';
+import {requestWidgetUpdate, WidgetPreview} from 'react-native-android-widget';
+
 import {
   getDataObject,
   removeValue,
   setObjectValue,
 } from '../utils/AsyncStorage';
-import {Calendar} from 'react-native-calendars';
-import {useIsFocused} from '@react-navigation/native';
 import {calculateCurrentStreak} from '../utils/HabitStreakHelper';
+import {StreakWidget} from '../widgets/StreakWidget';
 
 export const HabitDetailsScreen = ({navigation, route}) => {
   const {name} = route.params;
@@ -47,6 +50,18 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       }
     }
   }, [completedDays]);
+
+  useEffect(() => {
+    if (currentStreak !== undefined) {
+      requestWidgetUpdate({
+        widgetName: 'Streak',
+        renderWidget: () => <StreakWidget habit={habit} />,
+        widgetNotFound: () => {
+          // Called if no widget is present on the home screen
+        },
+      });
+    }
+  }, [currentStreak]);
 
   const updateCompletedDays = (day: string) => {
     setFutureDateError(false);
@@ -111,8 +126,23 @@ export const HabitDetailsScreen = ({navigation, route}) => {
             theme={{todayTextColor: 'black', todayBackgroundColor: '#d9d9d9'}}
           />
           <Button title="Delete Habit" onPress={() => deleteHabit()} />
+          <View style={styles.container}>
+            <WidgetPreview
+              renderWidget={() => <StreakWidget habit={habit} />}
+              width={320}
+              height={200}
+            />
+          </View>
         </View>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
