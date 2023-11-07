@@ -32,7 +32,6 @@ export const calculateCurrentStreak = (
       .slice(0, 10);
 
     let weeksMissedDates: number = 0;
-
     weeksDates.forEach(date => {
       // Check if date is past today date
       if (date > new Date().toISOString().slice(0, 10)) {
@@ -47,7 +46,14 @@ export const calculateCurrentStreak = (
         weeksMissedDates++;
       }
 
-      // Remove date from total completed dates array and increase streak by 1
+      // Set current streak to 0 if too many days have been missed
+      if (weeksMissedDates > allowedMissingDays) {
+        streak = 0;
+        dateToCheckStreakFromString = ascendingCompletedDays[0];
+        return;
+      }
+
+      // Remove date from total completed dates array, increase streak by 1, check for possible best streak
       const index = ascendingCompletedDays.indexOf(date);
       if (index > -1) {
         streak++;
@@ -57,12 +63,6 @@ export const calculateCurrentStreak = (
         }
       }
     });
-
-    // Set streak to 0 if too many days have been missed
-    if (weeksMissedDates > allowedMissingDays) {
-      streak = 0;
-      dateToCheckStreakFromString = ascendingCompletedDays[0];
-    }
   }
 
   setBestStreak(possibleBestStreak);
