@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="320dp"
-    android:minHeight="120dp"
+    android:minWidth="80dp"
+    android:minHeight="40dp"
+
+    android:resizeMode="vertical|horizontal"
+
+    android:minResizeWidth="80dp"
+    android:minResizeHeight="40dp"
 
     android:updatePeriodMillis="1800000"
 
@@ -10,7 +15,6 @@
     android:previewImage="@drawable/streak_preview"
     android:description="@string/widget_streak_description"
 
-    android:resizeMode="none"
 
     android:widgetCategory="home_screen">
 </appwidget-provider>
