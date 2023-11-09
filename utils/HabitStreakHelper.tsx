@@ -1,8 +1,9 @@
 export const calculateCurrentStreak = (
   completedDays: string[],
-  habit: object,
+  daysPerWeek: number,
   setBestStreak,
   setCurrentStreak,
+  setTotalDaysCompleted,
 ) => {
   // Order completedDays ascending
   let ascendingCompletedDays: string[] = completedDays.slice().sort((a, b) => {
@@ -10,7 +11,7 @@ export const calculateCurrentStreak = (
   });
 
   // Check if there is a streak within the allowed missing days
-  const allowedMissingDays: number = 7 - habit.daysPerWeek;
+  const allowedMissingDays: number = 7 - daysPerWeek;
   let streak: number = 0;
   let possibleBestStreak: number = 0;
   let dateToCheckStreakFromString: string = ascendingCompletedDays[0];
@@ -67,4 +68,5 @@ export const calculateCurrentStreak = (
 
   setBestStreak(possibleBestStreak);
   setCurrentStreak(streak);
+  setTotalDaysCompleted(completedDays.length);
 };

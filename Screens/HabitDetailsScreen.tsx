@@ -32,7 +32,16 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   useEffect(() => {
     if (Object.hasOwn(habit, 'name')) {
+      console.log(habit);
       setCompletedDays(habit.completedDays);
+      setBestStreak(habit.bestStreak);
+      setTotalDaysCompleted(habit.totalDaysCompleted);
+      setCurrentStreak(habit.currentStreak);
+
+      requestWidgetUpdate({
+        widgetName: 'Streak',
+        renderWidget: () => <StreakWidget habit={habit} />,
+      });
     }
   }, [habit]);
 
@@ -40,28 +49,24 @@ export const HabitDetailsScreen = ({navigation, route}) => {
     if (completedDays !== undefined) {
       calculateCurrentStreak(
         completedDays,
-        habit,
+        habit.daysPerWeek,
         setBestStreak,
         setCurrentStreak,
+        setTotalDaysCompleted,
       );
-      setTotalDaysCompleted(completedDays.length);
-      if (completedDays !== habit.completedDays) {
-        updateHabit();
-      }
     }
   }, [completedDays]);
 
   useEffect(() => {
-    if (currentStreak !== undefined) {
-      requestWidgetUpdate({
-        widgetName: 'Streak',
-        renderWidget: () => <StreakWidget habit={habit} />,
-        widgetNotFound: () => {
-          // Called if no widget is present on the home screen
-        },
-      });
+    if (
+      completedDays !== habit.completedDays ||
+      bestStreak !== habit.bestStreak ||
+      currentStreak !== habit.currentStreak ||
+      totalDaysCompleted !== habit.totalDaysCompleted
+    ) {
+      updateHabit();
     }
-  }, [currentStreak]);
+  }, [totalDaysCompleted]);
 
   const updateCompletedDays = (day: string) => {
     setFutureDateError(false);
@@ -126,13 +131,13 @@ export const HabitDetailsScreen = ({navigation, route}) => {
             theme={{todayTextColor: 'black', todayBackgroundColor: '#d9d9d9'}}
           />
           <Button title="Delete Habit" onPress={() => deleteHabit()} />
-          <View style={styles.container}>
+          {/* <View style={styles.container}>
             <WidgetPreview
               renderWidget={() => <StreakWidget habit={habit} />}
               width={320}
               height={200}
             />
-          </View>
+          </View> */}
         </View>
       )}
     </View>
