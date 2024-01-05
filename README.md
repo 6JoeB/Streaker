@@ -37,10 +37,10 @@ Habit tracker with a widget that shows your current streak
     - [x] Click day to toggle habit achieved/habit not achieved
   - [ ] Styling
 - [ ] Android widget
-  - [ ] Current active streak
-  - [ ] Name of habit
+  - [x] Current active streak
+  - [x] Name of habit
   - [ ] Button onclick sets today to complete
-  - [ ] Progessively more urgent messages to not lose the streak
+  - [x] Progessively more urgent messages to not lose the streak
   - [ ] Styling
 
 ### NTH
@@ -48,7 +48,7 @@ Habit tracker with a widget that shows your current streak
 - [ ] Add habit screen name text input should slow rotate through suggestions as placeholders
 - [ ] Habits can have:
   - [ ] Colour
-  - [ ] Emoji
+  - [ ] Emoji https://www.npmjs.com/package/emoji-picker-react
   - [ ] Complete total minutes per week instead of days
   - [ ] Breaking a habit options (like smoking etc)
 - [ ] Streak time achievments (6 weeks etc)
@@ -56,3 +56,4 @@ Habit tracker with a widget that shows your current streak
 - [ ] Habit detail screen loading spinner
 - [ ] View habit screen
   - [ ] Best streak
+- [ ] Reminder at chosen time

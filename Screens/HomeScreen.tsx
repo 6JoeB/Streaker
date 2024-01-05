@@ -20,10 +20,6 @@ const HomeScreen = ({navigation}) => {
     getDataObjects(asyncStorageKeys, setHabits);
   }, [asyncStorageKeys]);
 
-  useEffect(() => {
-    console.log(habits);
-  }, [habits]);
-
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       {asyncStorageKeys.length > 0 && habits.length > 0 ? (
@@ -47,6 +43,10 @@ const HomeScreen = ({navigation}) => {
       <Button
         title="Add Habit"
         onPress={() => navigation.navigate('Add Habit')}
+      />
+      <Button
+        title="Preview Widget"
+        onPress={() => navigation.navigate('Preview Widget')}
       />
     </View>
   );

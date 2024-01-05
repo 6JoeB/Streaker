@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, StyleSheet} from 'react-native';
+import {Calendar} from 'react-native-calendars';
+import {useIsFocused} from '@react-navigation/native';
+import {requestWidgetUpdate, WidgetPreview} from 'react-native-android-widget';
+
 import {
   getDataObject,
   removeValue,
   setObjectValue,
 } from '../utils/AsyncStorage';
-import {Calendar} from 'react-native-calendars';
-import {useIsFocused} from '@react-navigation/native';
 import {calculateCurrentStreak} from '../utils/HabitStreakHelper';
+import {StreakWidget} from '../widgets/StreakWidget';
 
 export const HabitDetailsScreen = ({navigation, route}) => {
   const {name} = route.params;
@@ -30,6 +33,14 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   useEffect(() => {
     if (Object.hasOwn(habit, 'name')) {
       setCompletedDays(habit.completedDays);
+      setBestStreak(habit.bestStreak);
+      setTotalDaysCompleted(habit.totalDaysCompleted);
+      setCurrentStreak(habit.currentStreak);
+
+      requestWidgetUpdate({
+        widgetName: 'Streak',
+        renderWidget: () => <StreakWidget habit={habit} />,
+      });
     }
   }, [habit]);
 
@@ -37,16 +48,24 @@ export const HabitDetailsScreen = ({navigation, route}) => {
     if (completedDays !== undefined) {
       calculateCurrentStreak(
         completedDays,
-        habit,
+        habit.daysPerWeek,
         setBestStreak,
         setCurrentStreak,
+        setTotalDaysCompleted,
       );
-      setTotalDaysCompleted(completedDays.length);
-      if (completedDays !== habit.completedDays) {
-        updateHabit();
-      }
     }
   }, [completedDays]);
+
+  useEffect(() => {
+    if (
+      completedDays !== habit.completedDays ||
+      bestStreak !== habit.bestStreak ||
+      currentStreak !== habit.currentStreak ||
+      totalDaysCompleted !== habit.totalDaysCompleted
+    ) {
+      updateHabit();
+    }
+  }, [totalDaysCompleted]);
 
   const updateCompletedDays = (day: string) => {
     setFutureDateError(false);
