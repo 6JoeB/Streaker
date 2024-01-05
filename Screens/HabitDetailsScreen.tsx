@@ -32,7 +32,6 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   useEffect(() => {
     if (Object.hasOwn(habit, 'name')) {
-      console.log(habit);
       setCompletedDays(habit.completedDays);
       setBestStreak(habit.bestStreak);
       setTotalDaysCompleted(habit.totalDaysCompleted);
@@ -131,23 +130,8 @@ export const HabitDetailsScreen = ({navigation, route}) => {
             theme={{todayTextColor: 'black', todayBackgroundColor: '#d9d9d9'}}
           />
           <Button title="Delete Habit" onPress={() => deleteHabit()} />
-          {/* <View style={styles.container}>
-            <WidgetPreview
-              renderWidget={() => <StreakWidget habit={habit} />}
-              width={320}
-              height={200}
-            />
-          </View> */}
         </View>
       )}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

@@ -8,7 +8,7 @@ import {
 // todo:
 // styling
 // onclick widget load app
-// choose which habit to show
+// choose which habit to show or show all at a time
 // pass habit on create widget
 // check habit data not cleared after update
 // update image for widget
@@ -28,7 +28,6 @@ export function StreakWidget({habit}: HabitProps) {
   let streakWarningLevel: number;
 
   if (habit !== undefined && Object.hasOwn(habit, 'name')) {
-    console.log(habit);
     streakWarningLevel = updateStreakWarningLevel(habit);
     habitLoaded = true;
   }
