@@ -97,7 +97,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   const deleteHabit = async () => {
     const success = await removeValue(habit.name);
     if (success) {
-      navigation.navigate('Home');
+      navigation.navigate('Habits');
     }
   };
 
