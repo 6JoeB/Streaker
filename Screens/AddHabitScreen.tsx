@@ -42,7 +42,7 @@ const AddHabitScreen = ({navigation}) => {
         bestStreak: 0,
         totalDaysCompleted: 0,
       });
-      navigation.navigate('Home');
+      navigation.navigate('Habits');
     } else {
       setNameInputError(true);
       return;
@@ -82,7 +82,7 @@ const AddHabitScreen = ({navigation}) => {
         <Text>{habitDaysPerWeek}</Text>
       </View>
       <Button title="Add" onPress={addHabit} />
-      <Button title="Cancel" onPress={() => navigation.navigate('Home')} />
+      <Button title="Cancel" onPress={() => navigation.navigate('Habits')} />
     </View>
   );
 };
