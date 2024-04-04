@@ -7,6 +7,7 @@ Habit tracker with a widget that shows your current streak
 ### MVP
 
 - [ ] Home screen: Shows current habits being tracked
+  - [ ] Calculate streak stats on screen show
   - [x] Add habit button links to add habit screen
   - [x] Each habit display in module which can be clicked for expanded view.
     - [x] Name
