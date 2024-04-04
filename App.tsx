@@ -11,8 +11,8 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Navigator initialRouteName="Habits">
+        <Stack.Screen name="Habits" component={HomeScreen} />
         <Stack.Screen name="Add Habit" component={AddHabitScreen} />
         <Stack.Screen name="Habit Details" component={HabitDetailsScreen} />
       </Stack.Navigator>
