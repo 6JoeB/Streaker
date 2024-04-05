@@ -31,9 +31,10 @@ const HomeScreen = ({navigation}) => {
   }, [asyncStorageKeys]);
 
   return (
-    <View>
-      <ScrollView>
-        <View style={{marginBottom: 100, minHeight: windowHeight - 180}}>
+    <View style={{minHeight: windowHeight - 80}}>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
+        <View style={styles.habitsContainer}>
           {asyncStorageKeys.length > 0 && habits.length > 0 ? (
             habits.map(habit => (
               <TouchableOpacity
@@ -65,7 +66,7 @@ const HomeScreen = ({navigation}) => {
               </TouchableOpacity>
             ))
           ) : (
-            <Text style={{textAlign: 'center', marginTop: 15}}>
+            <Text style={[styles.text, styles.centeredText]}>
               Habits will show here once they are added
             </Text>
           )}
@@ -83,6 +84,13 @@ const HomeScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  habitsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    paddingBottom: 120,
+    paddingTop: 10,
+  },
   habitContainer: {
     width: '80%',
     marginLeft: 'auto',
@@ -92,6 +100,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#8ecae6',
     overflow: 'hidden',
+    elevation: 2,
   },
   habitDetailsContainer: {
     height: 40,
@@ -105,6 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: 'black',
     margin: 20,
+    marginTop: 30,
     fontWeight: 'bold',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -115,7 +125,10 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     letterSpacing: 0.25,
   },
-  buttonContainer: {position: 'absolute', bottom: 10, right: 10},
+  centeredText: {
+    textAlign: 'center',
+  },
+  buttonContainer: {position: 'absolute', bottom: 20, right: 20},
   button: {
     backgroundColor: '#219ebc',
     width: 75,
