@@ -58,3 +58,8 @@ Habit tracker with a widget that shows your current streak
 - [ ] View habit screen
   - [ ] Best streak
 - [ ] Reminder at chosen time
+
+### Bugs
+
+- [x] 1 Add habit button not staying at bottom of screen when no habits showing
+- [x] 2 Add habit button text not centered

@@ -76,7 +76,12 @@ const HomeScreen = ({navigation}) => {
         <Pressable
           style={styles.button}
           onPress={() => navigation.navigate('Add Habit')}>
-          <Icon name="plus" size={40} color={'black'} />
+          <Icon
+            style={styles.iconCentered}
+            name="plus"
+            size={40}
+            color={'black'}
+          />
         </Pressable>
       </View>
     </View>
@@ -137,6 +142,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 3,
+  },
+  iconCentered: {
+    transform: [
+      {
+        translateY: 1.5,
+      },
+    ],
   },
 });
 
