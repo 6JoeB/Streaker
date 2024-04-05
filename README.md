@@ -12,13 +12,13 @@ Habit tracker with a widget that shows your current streak
   - [x] Each habit display in module which can be clicked for expanded view.
     - [x] Name
     - [x] Current streak
-  - [ ] Styling
-- [ ] Add habit screen
+  - [x] Styling
+- [x] Add habit screen
   - [x] Name (cannot repeat)
   - [x] Frequency aim per week (1 to 7 days)
   - [x] Create habit button
   - [x] Cancel button
-  - [ ] Styling
+  - [x] Styling
 - [ ] Edit habit screen
   - [ ] Name (cannot repeat)
   - [ ] Frequency aim per week (1 to 7 days)
