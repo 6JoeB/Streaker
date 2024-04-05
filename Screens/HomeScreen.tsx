@@ -1,6 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {getAllKeys, getDataObjects} from '../utils/AsyncStorage';
 
@@ -9,6 +18,7 @@ const HomeScreen = ({navigation}) => {
   const [asyncStorageKeys, setAsyncStorageKeys] = useState([]);
 
   const isFocused = useIsFocused();
+  const windowHeight = Dimensions.get('window').height;
 
   useEffect(() => {
     if (isFocused) {
@@ -21,35 +31,100 @@ const HomeScreen = ({navigation}) => {
   }, [asyncStorageKeys]);
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      {asyncStorageKeys.length > 0 && habits.length > 0 ? (
-        habits.map(habit => (
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('Habit Details', {
-                name: habit.name,
-              })
-            }>
-            <Text>{habit.name}</Text>
-            <Text>Aim: {habit.daysPerWeek} </Text>
-            <Text>Best streak: {habit.bestStreak} </Text>
-            <Text>Completed days: {habit.completedDays.length} </Text>
-            <Text>Current streak: {habit.currentStreak} </Text>
-          </TouchableOpacity>
-        ))
-      ) : (
-        <Text>Habits will show here once one is created</Text>
-      )}
-      <Button
-        title="Add Habit"
-        onPress={() => navigation.navigate('Add Habit')}
-      />
-      <Button
-        title="Preview Widget"
-        onPress={() => navigation.navigate('Preview Widget')}
-      />
+    <View>
+      <ScrollView>
+        <View style={{marginBottom: 100, minHeight: windowHeight - 180}}>
+          {asyncStorageKeys.length > 0 && habits.length > 0 ? (
+            habits.map(habit => (
+              <TouchableOpacity
+                style={styles.habitContainer}
+                onPress={() =>
+                  navigation.navigate('Habit Details', {
+                    name: habit.name,
+                  })
+                }>
+                <Text style={styles.text}>{habit.name}</Text>
+                <View style={styles.habitDetailsContainer}>
+                  <View style={styles.habitRow}>
+                    <Text style={styles.text}>
+                      Current streak: {habit.currentStreak}
+                    </Text>
+                    <Text style={styles.text}>
+                      Best streak: {habit.bestStreak}
+                    </Text>
+                  </View>
+                  <View style={styles.habitRow}>
+                    <Text style={styles.text}>
+                      Weekly aim: {habit.daysPerWeek}
+                    </Text>
+                    <Text style={styles.text}>
+                      Completed days: {habit.completedDays.length}
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text style={{textAlign: 'center', marginTop: 15}}>
+              Habits will show here once they are added
+            </Text>
+          )}
+        </View>
+      </ScrollView>
+      <View style={styles.buttonContainer}>
+        <Pressable
+          style={styles.button}
+          onPress={() => navigation.navigate('Add Habit')}>
+          <Icon name="plus" size={40} color={'black'} />
+        </Pressable>
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  habitContainer: {
+    width: '80%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 20,
+    borderRadius: 15,
+    padding: 20,
+    backgroundColor: '#8ecae6',
+    overflow: 'hidden',
+  },
+  habitDetailsContainer: {
+    height: 40,
+  },
+  habitRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  title: {
+    fontSize: 30,
+    color: 'black',
+    margin: 20,
+    fontWeight: 'bold',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  text: {
+    color: 'black',
+    fontSize: 16,
+    lineHeight: 21,
+    letterSpacing: 0.25,
+  },
+  buttonContainer: {position: 'absolute', bottom: 10, right: 10},
+  button: {
+    backgroundColor: '#219ebc',
+    width: 75,
+    height: 75,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3,
+  },
+});
 
 export default HomeScreen;
