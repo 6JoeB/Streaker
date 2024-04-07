@@ -119,11 +119,11 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   return (
     <View style={{height: '100%', width: '100%'}}>
       {loading ? (
-        <View style={styles.habitContainer}>
+        <View style={styles.container}>
           <Text style={[styles.text, styles.centered]}>Loading..</Text>
         </View>
       ) : habit !== undefined ? (
-        <View style={styles.habitContainer}>
+        <View style={styles.container}>
           <Text style={styles.title}>{habit.name}</Text>
           <Text style={styles.text}>Current streak: {currentStreak}</Text>
           <Text style={styles.text}>Best streak: {bestStreak}</Text>
@@ -160,7 +160,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
           </View>
         </View>
       ) : (
-        <View style={styles.habitContainer}>
+        <View style={styles.container}>
           <Text style={[styles.text, styles.centered]}>
             Habit loading error, try restarting the app.
           </Text>
@@ -174,25 +174,21 @@ const styles = StyleSheet.create({
   centered: {
     textAlign: 'center',
   },
-  habitContainer: {
+  container: {
     flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
     width: '80%',
-    // margin: 20,
     marginLeft: 'auto',
     marginRight: 'auto',
     borderRadius: 15,
-    // padding: 20,
-    // backgroundColor: '#8ecae6',
     overflow: 'hidden',
-    // elevation: 2,
   },
   title: {
     fontSize: 30,
     color: 'black',
     fontWeight: 'bold',
-    marginBottom: 50,
+    marginBottom: 30,
     marginLeft: 'auto',
     marginRight: 'auto',
   },
@@ -202,7 +198,6 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     letterSpacing: 0.25,
     marginBottom: 3,
-    // textAlign: 'center',
   },
   warningText: {
     color: 'red',
@@ -214,7 +209,6 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     letterSpacing: 0.25,
   },
-
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
