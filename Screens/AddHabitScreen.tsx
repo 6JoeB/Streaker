@@ -54,13 +54,6 @@ const AddHabitScreen = ({navigation}) => {
       <View>
         <Text style={styles.title}>Add a new habit</Text>
         <View style={{marginBottom: 10}}>
-          {nameInputError && (
-            <Text style={[styles.text, styles.warningText]}>
-              Please include a name for this habit that is not a repeat of
-              another habit
-            </Text>
-          )}
-
           <Text style={styles.text}>Name of habit</Text>
           <TextInput
             style={styles.input}
@@ -68,6 +61,12 @@ const AddHabitScreen = ({navigation}) => {
             value={habitName}
             placeholder="Lift weights.."
           />
+          {nameInputError && (
+            <Text style={[styles.text, styles.warningText]}>
+              Please include a name for this habit that is not a repeat of
+              another habit
+            </Text>
+          )}
         </View>
         <View style={{marginBottom: 50}}>
           <Text style={styles.text}>

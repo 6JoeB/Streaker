@@ -32,12 +32,12 @@ Habit tracker with a widget that shows your current streak
   - [x] Best streak
   - [ ] Click edit button to open edit habit screen
   - [x] Click delete button to remove habit
-  - [] Are you sure you want to delete habit
+  - [ ] Are you sure you want to delete habit
   - [x] Calender
     - [x] Today highlighted
     - [x] Showing days habit achieved in green
     - [x] Click day to toggle habit achieved/habit not achieved
-  - [ ] Styling
+  - [x] Styling
 - [ ] Android widget
   - [x] Current active streak
   - [x] Name of habit
@@ -47,6 +47,7 @@ Habit tracker with a widget that shows your current streak
 
 ### NTH
 
+- [ ] Home screen habits have easy button to set todays date to complete
 - [ ] Add habit screen name text input should slow rotate through suggestions as placeholders
 - [ ] Habits can have:
   - [ ] Colour
@@ -59,7 +60,7 @@ Habit tracker with a widget that shows your current streak
 - [ ] View habit screen
   - [ ] Best streak
 - [ ] Reminder at chosen time
-- [ ] Loading spinner
+- [ ] After successful edit show success toast
 
 ### Bugs
 
