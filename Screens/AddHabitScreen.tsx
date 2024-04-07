@@ -80,17 +80,7 @@ const AddHabitScreen = ({navigation}) => {
               color={habitDaysPerWeek > 1 ? 'black' : 'grey'}
               onPress={() => updateHabitsDaysPerWeekValue(false)}
             />
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 18,
-                lineHeight: 21,
-                letterSpacing: 0.25,
-                marginLeft: 5,
-                marginRight: 5,
-              }}>
-              {habitDaysPerWeek}
-            </Text>
+            <Text style={styles.daysPerWeekText}>{habitDaysPerWeek}</Text>
             <Icon
               name="plus"
               size={30}
@@ -154,6 +144,14 @@ const styles = StyleSheet.create({
   warningText: {
     color: 'red',
     marginBottom: 5,
+  },
+  daysPerWeekText: {
+    color: 'black',
+    fontSize: 18,
+    lineHeight: 21,
+    letterSpacing: 0.25,
+    marginLeft: 15,
+    marginRight: 15,
   },
   buttonText: {
     fontWeight: 'bold',
