@@ -32,6 +32,7 @@ Habit tracker with a widget that shows your current streak
   - [x] Best streak
   - [ ] Click edit button to open edit habit screen
   - [x] Click delete button to remove habit
+  - [] Are you sure you want to delete habit
   - [x] Calender
     - [x] Today highlighted
     - [x] Showing days habit achieved in green
@@ -52,12 +53,13 @@ Habit tracker with a widget that shows your current streak
   - [ ] Emoji https://www.npmjs.com/package/emoji-picker-react
   - [ ] Complete total minutes per week instead of days
   - [ ] Breaking a habit options (like smoking etc)
-- [ ] Streak time achievments (6 weeks etc)
+- [ ] Streak time achievements (6 weeks etc)
 - [ ] Streak time leaderboard
 - [ ] Habit detail screen loading spinner
 - [ ] View habit screen
   - [ ] Best streak
 - [ ] Reminder at chosen time
+- [ ] Loading spinner
 
 ### Bugs
 
