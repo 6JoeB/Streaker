@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import {View, Text, Button, StyleSheet, Pressable} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {useIsFocused} from '@react-navigation/native';
 import {requestWidgetUpdate, WidgetPreview} from 'react-native-android-widget';
@@ -11,10 +11,12 @@ import {
 } from '../utils/AsyncStorage';
 import {calculateCurrentStreak} from '../utils/HabitStreakHelper';
 import {StreakWidget} from '../widgets/StreakWidget';
+import {Screen} from 'react-native-screens';
 
 export const HabitDetailsScreen = ({navigation, route}) => {
   const {name} = route.params;
 
+  const [loading, setLoading] = useState(true);
   const [completedDays, setCompletedDays] = useState([]);
   const [habit, setHabit] = useState({});
   const [futureDateError, setFutureDateError] = useState(false);
@@ -41,6 +43,8 @@ export const HabitDetailsScreen = ({navigation, route}) => {
         widgetName: 'Streak',
         renderWidget: () => <StreakWidget habit={habit} />,
       });
+
+      setLoading(false);
     }
   }, [habit]);
 
@@ -111,17 +115,24 @@ export const HabitDetailsScreen = ({navigation, route}) => {
     return markedDates;
   };
 
+  //
   return (
-    <View>
-      {habit !== undefined && (
-        <View>
-          <Text>{habit.name}</Text>
-          <Text>Weekly aim:{habit.daysPerWeek}</Text>
-          <Text>Total days completed: {totalDaysCompleted}</Text>
-          <Text>Current streak: {currentStreak}</Text>
-          <Text>Best streak: {bestStreak}</Text>
-          {futureDateError && <Text>That day is in the future!</Text>}
+    <View style={{height: '100%', width: '100%'}}>
+      {loading ? (
+        <View style={styles.habitContainer}>
+          <Text style={[styles.text, styles.centered]}>Loading..</Text>
+        </View>
+      ) : habit !== undefined ? (
+        <View style={styles.habitContainer}>
+          <Text style={styles.title}>{habit.name}</Text>
+          <Text style={styles.text}>Current streak: {currentStreak}</Text>
+          <Text style={styles.text}>Best streak: {bestStreak}</Text>
+          <Text style={styles.text}>Weekly aim: {habit.daysPerWeek}</Text>
+          <Text style={styles.text}>
+            Total days completed: {totalDaysCompleted}
+          </Text>
           <Calendar
+            style={styles.calendar}
             onDayPress={day => {
               updateCompletedDays(day.dateString);
             }}
@@ -129,9 +140,101 @@ export const HabitDetailsScreen = ({navigation, route}) => {
             firstDay={1}
             theme={{todayTextColor: 'black', todayBackgroundColor: '#d9d9d9'}}
           />
-          <Button title="Delete Habit" onPress={() => deleteHabit()} />
+          {futureDateError && (
+            <Text style={[styles.text, styles.warningText]}>
+              That day is in the future!
+            </Text>
+          )}
+
+          <View style={styles.buttonRow}>
+            <Pressable
+              style={[styles.button, styles.buttonRed]}
+              onPress={() => deleteHabit()}>
+              <Text style={styles.buttonText}>Delete</Text>
+            </Pressable>
+            <Pressable
+              style={styles.button}
+              onPress={() => navigation.navigate('Add Habit')}>
+              <Text style={styles.buttonText}>Update</Text>
+            </Pressable>
+          </View>
+        </View>
+      ) : (
+        <View style={styles.habitContainer}>
+          <Text style={[styles.text, styles.centered]}>
+            Habit loading error, try restarting the app.
+          </Text>
         </View>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  centered: {
+    textAlign: 'center',
+  },
+  habitContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    width: '80%',
+    // margin: 20,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: 15,
+    // padding: 20,
+    // backgroundColor: '#8ecae6',
+    overflow: 'hidden',
+    // elevation: 2,
+  },
+  title: {
+    fontSize: 30,
+    color: 'black',
+    fontWeight: 'bold',
+    marginBottom: 50,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  text: {
+    color: 'black',
+    fontSize: 16,
+    lineHeight: 21,
+    letterSpacing: 0.25,
+    marginBottom: 3,
+    // textAlign: 'center',
+  },
+  warningText: {
+    color: 'red',
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    color: 'black',
+    fontSize: 18,
+    lineHeight: 21,
+    letterSpacing: 0.25,
+  },
+
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  button: {
+    backgroundColor: '#219ebc',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 22,
+    height: 50,
+    width: 120,
+    borderRadius: 4,
+    elevation: 3,
+  },
+  buttonRed: {
+    backgroundColor: '#d63633',
+  },
+  calendar: {
+    marginTop: 10,
+    marginBottom: 50,
+  },
+});
