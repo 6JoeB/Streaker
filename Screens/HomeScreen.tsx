@@ -44,7 +44,7 @@ const HomeScreen = ({navigation}) => {
                     name: habit.name,
                   })
                 }>
-                <Text style={styles.text}>{habit.name}</Text>
+                <Text style={styles.habitNameText}>{habit.name}</Text>
                 <View style={styles.habitDetailsContainer}>
                   <View style={styles.habitRow}>
                     <Text style={styles.text}>
@@ -130,8 +130,14 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     letterSpacing: 0.25,
   },
-  centeredText: {
+  habitNameText: {
+    color: 'black',
+    fontSize: 18,
+    lineHeight: 21,
+    letterSpacing: 0.25,
     textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
   buttonContainer: {position: 'absolute', bottom: 20, right: 20},
   button: {
