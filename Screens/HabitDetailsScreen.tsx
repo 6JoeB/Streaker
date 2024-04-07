@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {useIsFocused} from '@react-navigation/native';
-import {requestWidgetUpdate, WidgetPreview} from 'react-native-android-widget';
+import {requestWidgetUpdate} from 'react-native-android-widget';
 
 import {
   getDataObject,
@@ -11,7 +11,6 @@ import {
 } from '../utils/AsyncStorage';
 import {calculateCurrentStreak} from '../utils/HabitStreakHelper';
 import {StreakWidget} from '../widgets/StreakWidget';
-import {Screen} from 'react-native-screens';
 
 export const HabitDetailsScreen = ({navigation, route}) => {
   const {name} = route.params;
@@ -154,15 +153,19 @@ export const HabitDetailsScreen = ({navigation, route}) => {
             </Pressable>
             <Pressable
               style={styles.button}
-              onPress={() => navigation.navigate('Add Habit')}>
-              <Text style={styles.buttonText}>Update</Text>
+              onPress={() =>
+                navigation.navigate('Edit Habit', {
+                  name: habit.name,
+                })
+              }>
+              <Text style={styles.buttonText}>Edit</Text>
             </Pressable>
           </View>
         </View>
       ) : (
         <View style={styles.container}>
           <Text style={[styles.text, styles.centered]}>
-            Habit loading error, try restarting the app.
+            Error loading habit, try restarting the app.
           </Text>
         </View>
       )}
