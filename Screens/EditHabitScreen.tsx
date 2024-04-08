@@ -62,11 +62,8 @@ const EditHabitScreen = ({navigation, route}) => {
         return obj === habitName;
       });
     }
-    console.log(asyncStorageKeys);
-    console.log(duplicateKey);
 
     if (duplicateKey.length !== 0 || habitName.length <= 0) {
-      console.log('duplicate key');
       setNameInputError(true);
       return;
     }
