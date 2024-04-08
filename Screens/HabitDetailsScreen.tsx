@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable, Modal} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {useIsFocused} from '@react-navigation/native';
 import {requestWidgetUpdate} from 'react-native-android-widget';
@@ -22,6 +22,8 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   const [currentStreak, setCurrentStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [totalDaysCompleted, setTotalDaysCompleted] = useState(0);
+  const [confirmDeleteModalVisible, setConfirmDeleteModalVisible] =
+    useState(false);
 
   const isFocused = useIsFocused();
 
@@ -114,9 +116,33 @@ export const HabitDetailsScreen = ({navigation, route}) => {
     return markedDates;
   };
 
-  //
   return (
     <View style={{height: '100%', width: '100%'}}>
+      <Modal
+        transparent={true}
+        visible={confirmDeleteModalVisible}
+        animationType="slide">
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.text}>
+              Are you sure you want to delete the habit &quot;{habit.name}
+              &quot;?
+            </Text>
+            <View style={styles.modalButtonRow}>
+              <Pressable
+                style={styles.button}
+                onPress={() => setConfirmDeleteModalVisible(false)}>
+                <Text style={styles.buttonText}>No</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonRed]}
+                onPress={() => deleteHabit()}>
+                <Text style={styles.buttonText}>Yes</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
       {loading ? (
         <View style={styles.container}>
           <Text style={[styles.text, styles.centered]}>Loading..</Text>
@@ -147,11 +173,6 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
           <View style={styles.buttonRow}>
             <Pressable
-              style={[styles.button, styles.buttonRed]}
-              onPress={() => deleteHabit()}>
-              <Text style={styles.buttonText}>Delete</Text>
-            </Pressable>
-            <Pressable
               style={styles.button}
               onPress={() =>
                 navigation.navigate('Edit Habit', {
@@ -159,6 +180,11 @@ export const HabitDetailsScreen = ({navigation, route}) => {
                 })
               }>
               <Text style={styles.buttonText}>Edit</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button, styles.buttonRed]}
+              onPress={() => setConfirmDeleteModalVisible(true)}>
+              <Text style={styles.buttonText}>Delete</Text>
             </Pressable>
           </View>
         </View>
@@ -186,6 +212,26 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     borderRadius: 15,
     overflow: 'hidden',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalButtonRow: {
+    marginTop: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
   title: {
     fontSize: 30,

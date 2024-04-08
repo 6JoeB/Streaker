@@ -157,7 +157,11 @@ const EditHabitScreen = ({navigation, route}) => {
           <View style={styles.buttonRow}>
             <Pressable
               style={[styles.button, styles.buttonRed]}
-              onPress={() => navigation.navigate('Habits')}>
+              onPress={() =>
+                navigation.navigate('Habit Details', {
+                  name: habit.name,
+                })
+              }>
               <Text style={styles.buttonText}>Cancel</Text>
             </Pressable>
             <Pressable style={styles.button} onPress={editHabit}>

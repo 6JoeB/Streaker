@@ -25,14 +25,14 @@ Habit tracker with a widget that shows your current streak
   - [x] Update habit button
   - [x] Cancel button
   - [x] Styling
-- [ ] View habit screen
+- [x] View habit screen
   - [x] Show Name, frequency
   - [x] Current streak
   - [x] Total days achieved
   - [x] Best streak
-  - [ ] Click edit button to open edit habit screen
+  - [x] Click edit button to open edit habit screen
   - [x] Click delete button to remove habit
-  - [ ] Are you sure you want to delete habit
+  - [x] Are you sure you want to delete habit
   - [x] Calender
     - [x] Today highlighted
     - [x] Showing days habit achieved in green
