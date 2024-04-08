@@ -3,7 +3,13 @@ import {View, Text, Pressable, TextInput, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useIsFocused} from '@react-navigation/native';
 
-import {getAllKeys, getDataObject, setObjectValue} from '../utils/AsyncStorage';
+import {
+  getAllKeys,
+  getDataObject,
+  removeValue,
+  setObjectValue,
+  storeDataObject,
+} from '../utils/AsyncStorage';
 
 const EditHabitScreen = ({navigation, route}) => {
   const [habit, setHabit] = useState({});
@@ -28,7 +34,6 @@ const EditHabitScreen = ({navigation, route}) => {
   }, [isFocused]);
 
   useEffect(() => {
-    console.log(habit);
     setHabitName(habit.name);
     setHabitDaysPerWeek(habit.daysPerWeek);
     setLoading(false);
@@ -46,31 +51,50 @@ const EditHabitScreen = ({navigation, route}) => {
     setNameInputError(false);
     setNoChangesError(false);
 
-    if (habit.name === habitName && habit.daysPerWeek === habitDaysPerWeek) {
-      setNoChangesError(true);
-      return;
-    }
+    let duplicateKey = [];
 
-    const duplicateKey = asyncStorageKeys.filter(obj => {
-      return obj === habitName;
-    });
-
-    if (duplicateKey.length === 0 && habitName.length > 1) {
-      const success = await setObjectValue(habit.name, {
-        name: habitName,
-        daysPerWeek: habitDaysPerWeek,
-      });
-      if (success) {
-        navigation.navigate('Habit Details', {
-          name: habitName,
-        });
-      } else {
-        setEditError(true);
+    if (habit.daysPerWeek === habitDaysPerWeek) {
+      if (habit.name === habitName) {
+        setNoChangesError(true);
+        return;
       }
-    } else {
+      duplicateKey = asyncStorageKeys.filter(obj => {
+        return obj === habitName;
+      });
+    }
+    console.log(asyncStorageKeys);
+    console.log(duplicateKey);
+
+    if (duplicateKey.length !== 0 || habitName.length <= 0) {
+      console.log('duplicate key');
       setNameInputError(true);
       return;
     }
+
+    const deleteSuccess = await removeValue(habit.name);
+
+    if (!deleteSuccess) {
+      setEditError(true);
+      return;
+    }
+
+    const storeSuccess = await storeDataObject(habitName, {
+      name: habitName,
+      daysPerWeek: habitDaysPerWeek,
+      completedDays: habit.completedDays,
+      currentStreak: habit.currentStreak,
+      bestStreak: habit.bestStreak,
+      totalDaysCompleted: habit.totalDaysCompleted,
+    });
+
+    if (!storeSuccess) {
+      setEditError(true);
+      return;
+    }
+
+    navigation.navigate('Habit Details', {
+      name: habitName,
+    });
   };
 
   return (
@@ -140,7 +164,7 @@ const EditHabitScreen = ({navigation, route}) => {
               <Text style={styles.buttonText}>Cancel</Text>
             </Pressable>
             <Pressable style={styles.button} onPress={editHabit}>
-              <Text style={styles.buttonText}>Edit</Text>
+              <Text style={styles.buttonText}>Confirm</Text>
             </Pressable>
           </View>
         </View>
