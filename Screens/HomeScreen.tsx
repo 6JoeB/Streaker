@@ -66,9 +66,11 @@ const HomeScreen = ({navigation}) => {
               </TouchableOpacity>
             ))
           ) : (
-            <Text style={[styles.text, styles.centeredText]}>
-              Habits will show here once they are added
-            </Text>
+            <View style={styles.centeredContainer}>
+              <Text style={[styles.text, styles.centeredText]}>
+                Habits will show here once they are added
+              </Text>
+            </View>
           )}
         </View>
       </ScrollView>
@@ -109,6 +111,15 @@ const styles = StyleSheet.create({
   },
   habitDetailsContainer: {
     height: 40,
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    width: '80%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    overflow: 'hidden',
   },
   habitRow: {
     flex: 1,

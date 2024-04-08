@@ -19,12 +19,12 @@ Habit tracker with a widget that shows your current streak
   - [x] Create habit button
   - [x] Cancel button
   - [x] Styling
-- [ ] Edit habit screen
-  - [ ] Name (cannot repeat)
-  - [ ] Frequency aim per week (1 to 7 days)
-  - [ ] Update habit button
-  - [ ] Cancel button
-  - [ ] Styling
+- [x] Edit habit screen
+  - [x] Name (cannot repeat)
+  - [x] Frequency aim per week (1 to 7 days)
+  - [x] Update habit button
+  - [x] Cancel button
+  - [x] Styling
 - [ ] View habit screen
   - [x] Show Name, frequency
   - [x] Current streak
@@ -64,5 +64,6 @@ Habit tracker with a widget that shows your current streak
 
 ### Bugs
 
-- [x] 1 Add habit button not staying at bottom of screen when no habits showing
-- [x] 2 Add habit button text not centered
+- [x] 1: Add habit button not staying at bottom of screen when no habits showing
+- [x] 2: Add habit button text not centered
+- [ ] 3: Streak calculates total completed days should this include missed days of a week if aim is less than 7
