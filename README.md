@@ -61,6 +61,7 @@ Habit tracker with a widget that shows your current streak
   - [ ] Best streak
 - [ ] Reminder at chosen time
 - [ ] After successful edit show success toast
+- [ ] Home screen with no habits could be intro screen
 
 ### Bugs
 
