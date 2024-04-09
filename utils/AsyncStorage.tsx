@@ -4,8 +4,19 @@ export const storeDataObject = async (key: string, value: object) => {
   try {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(key, jsonValue);
+    return true;
   } catch (e) {
     console.error('Error storing data object in AsyncStorage, ' + e);
+  }
+};
+
+export const setObjectValue = async (key: string, value: object) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem(key, jsonValue);
+    return true;
+  } catch (e) {
+    console.error('Error updating key, ' + e);
   }
 };
 
@@ -48,16 +59,6 @@ export const removeValue = async (key: string) => {
     return true;
   } catch (e) {
     console.error('Error removing key, ' + e);
-  }
-};
-
-export const setObjectValue = async (key: string, value: object) => {
-  try {
-    const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem(key, jsonValue);
-    return true;
-  } catch (e) {
-    console.error('Error updating key, ' + e);
   }
 };
 
