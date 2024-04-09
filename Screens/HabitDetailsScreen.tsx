@@ -21,6 +21,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   const [currentStreak, setCurrentStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [totalDaysCompleted, setTotalDaysCompleted] = useState(0);
+  const [aimPerWeek, setAimPerWeek] = useState(0);
   const [futureDateError, setFutureDateError] = useState(false);
   const [confirmDeleteModalVisible, setConfirmDeleteModalVisible] =
     useState(false);
@@ -29,16 +30,17 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   useEffect(() => {
     if (isFocused) {
+      setLoading(true);
       getDataObject(name, setHabit);
     }
   }, [isFocused]);
 
   useEffect(() => {
     if (Object.hasOwn(habit, 'name')) {
-      setCompletedDays(habit.completedDays);
       setBestStreak(habit.bestStreak);
       setTotalDaysCompleted(habit.totalDaysCompleted);
       setCurrentStreak(habit.currentStreak);
+      setCompletedDays(habit.completedDays);
 
       // requestWidgetUpdate({
       //   widgetName: 'Streak',
@@ -59,7 +61,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
         setTotalDaysCompleted,
       );
     }
-  }, [completedDays]);
+  }, [completedDays, habit.daysPerWeek]);
 
   useEffect(() => {
     if (
@@ -70,7 +72,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
     ) {
       updateHabit();
     }
-  }, [totalDaysCompleted]);
+  }, [completedDays, bestStreak, currentStreak, totalDaysCompleted]);
 
   const updateCompletedDays = (day: string) => {
     setFutureDateError(false);
