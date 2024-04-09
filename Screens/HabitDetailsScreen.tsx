@@ -16,12 +16,12 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   const {name} = route.params;
 
   const [loading, setLoading] = useState(true);
-  const [completedDays, setCompletedDays] = useState([]);
   const [habit, setHabit] = useState({});
-  const [futureDateError, setFutureDateError] = useState(false);
+  const [completedDays, setCompletedDays] = useState([]);
   const [currentStreak, setCurrentStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [totalDaysCompleted, setTotalDaysCompleted] = useState(0);
+  const [futureDateError, setFutureDateError] = useState(false);
   const [confirmDeleteModalVisible, setConfirmDeleteModalVisible] =
     useState(false);
 
@@ -40,10 +40,10 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       setTotalDaysCompleted(habit.totalDaysCompleted);
       setCurrentStreak(habit.currentStreak);
 
-      requestWidgetUpdate({
-        widgetName: 'Streak',
-        renderWidget: () => <StreakWidget habit={habit} />,
-      });
+      // requestWidgetUpdate({
+      //   widgetName: 'Streak',
+      //   renderWidget: () => <StreakWidget habit={habit} />,
+      // });
 
       setLoading(false);
     }
@@ -150,11 +150,11 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       ) : habit !== undefined ? (
         <View style={styles.container}>
           <Text style={styles.title}>{habit.name}</Text>
-          <Text style={styles.text}>Current streak: {currentStreak}</Text>
-          <Text style={styles.text}>Best streak: {bestStreak}</Text>
+          <Text style={styles.text}>Current streak: {habit.currentStreak}</Text>
+          <Text style={styles.text}>Best streak: {habit.bestStreak}</Text>
           <Text style={styles.text}>Weekly aim: {habit.daysPerWeek}</Text>
           <Text style={styles.text}>
-            Total days completed: {totalDaysCompleted}
+            Total days completed: {habit.totalDaysCompleted}
           </Text>
           <Calendar
             style={styles.calendar}

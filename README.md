@@ -6,8 +6,8 @@ Habit tracker with a widget that shows your current streak
 
 ### MVP
 
-- [ ] Home screen: Shows current habits being tracked
-  - [ ] Calculate streak stats on screen show
+- [x] Home screen: Shows current habits being tracked
+  - [x] Calculate streak stats on screen show
   - [x] Add habit button links to add habit screen
   - [x] Each habit display in module which can be clicked for expanded view.
     - [x] Name
@@ -67,3 +67,4 @@ Habit tracker with a widget that shows your current streak
 - [x] 1: Add habit button not staying at bottom of screen when no habits showing
 - [x] 2: Add habit button text not centered
 - [ ] 3: Streak calculates total completed days should this include missed days of a week if aim is less than 7
+- [ ] 4: [TypeError: Cannot read property 'color' of undefined]
