@@ -152,11 +152,11 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       ) : habit !== undefined ? (
         <View style={styles.container}>
           <Text style={styles.title}>{habit.name}</Text>
-          <Text style={styles.text}>Current streak: {habit.currentStreak}</Text>
-          <Text style={styles.text}>Best streak: {habit.bestStreak}</Text>
+          <Text style={styles.text}>Current streak: {currentStreak}</Text>
+          <Text style={styles.text}>Best streak: {bestStreak}</Text>
           <Text style={styles.text}>Weekly aim: {habit.daysPerWeek}</Text>
           <Text style={styles.text}>
-            Total days completed: {habit.totalDaysCompleted}
+            Total days completed: {totalDaysCompleted}
           </Text>
           <Calendar
             style={styles.calendar}
