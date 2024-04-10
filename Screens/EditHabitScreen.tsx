@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Pressable, TextInput, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  TextInput,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useIsFocused} from '@react-navigation/native';
 
@@ -7,7 +14,6 @@ import {
   getAllKeys,
   getDataObject,
   removeValue,
-  setObjectValue,
   storeDataObject,
 } from '../utils/AsyncStorage';
 
@@ -98,7 +104,8 @@ const EditHabitScreen = ({navigation, route}) => {
     <View style={styles.editHabitContainer}>
       {loading ? (
         <View style={styles.container}>
-          <Text style={[styles.text, styles.centered]}>Loading..</Text>
+          <Text style={[styles.text, styles.centered]}>Loading</Text>
+          <ActivityIndicator style={styles.loadingSpinner} />
         </View>
       ) : habit !== undefined ? (
         <View>
@@ -269,6 +276,9 @@ const styles = StyleSheet.create({
   },
   mb10: {
     marginBottom: 10,
+  },
+  loadingSpinner: {
+    marginTop: 5,
   },
 });
 

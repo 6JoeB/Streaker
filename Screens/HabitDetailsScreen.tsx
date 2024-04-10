@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Pressable, Modal} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Modal,
+  ActivityIndicator,
+} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {useIsFocused} from '@react-navigation/native';
 import {requestWidgetUpdate} from 'react-native-android-widget';
@@ -147,7 +154,8 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       </Modal>
       {loading ? (
         <View style={styles.container}>
-          <Text style={[styles.text, styles.centered]}>Loading..</Text>
+          <Text style={[styles.text, styles.centered]}>Loading</Text>
+          <ActivityIndicator style={styles.loadingSpinner} />
         </View>
       ) : habit !== undefined ? (
         <View style={styles.container}>
@@ -281,5 +289,8 @@ const styles = StyleSheet.create({
   calendar: {
     marginTop: 10,
     marginBottom: 50,
+  },
+  loadingSpinner: {
+    marginTop: 5,
   },
 });
