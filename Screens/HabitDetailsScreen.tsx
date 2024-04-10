@@ -28,7 +28,6 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   const [currentStreak, setCurrentStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [totalDaysCompleted, setTotalDaysCompleted] = useState(0);
-  const [aimPerWeek, setAimPerWeek] = useState(0);
   const [futureDateError, setFutureDateError] = useState(false);
   const [confirmDeleteModalVisible, setConfirmDeleteModalVisible] =
     useState(false);
