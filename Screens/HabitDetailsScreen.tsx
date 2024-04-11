@@ -154,7 +154,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       {loading ? (
         <View style={styles.container}>
           <Text style={[styles.text, styles.centered]}>Loading</Text>
-          <ActivityIndicator style={styles.loadingSpinner} />
+          <ActivityIndicator style={styles.loadingSpinner} color={'#219ebc'} />
         </View>
       ) : habit !== undefined ? (
         <View style={styles.container}>

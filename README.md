@@ -53,6 +53,7 @@ Habit tracker with a widget that shows your current streak
 - [ ] Reminder at chosen time
 - [ ] After successful edit show success toast
 - [ ] Home screen with no habits could be intro screen
+- [ ] loading to edit habit screen
 
 ### Bugs
 
@@ -70,3 +71,4 @@ Habit tracker with a widget that shows your current streak
   - [ ] Breaking a habit options (like smoking etc)
 - [ ] Streak time achievements (6 weeks etc)
 - [ ] Streak time leaderboard
+- [ ] Show cumulative days/weeks spend achieving habits
