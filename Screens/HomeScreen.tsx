@@ -67,8 +67,14 @@ const HomeScreen = ({navigation}) => {
             ))
           ) : (
             <View style={styles.centeredContainer}>
-              <Text style={[styles.text, styles.centeredText]}>
+              <Text style={[styles.text, styles.centeredText]}>Welcome to</Text>
+              <Text style={styles.mainTitle}>Streaker</Text>
+              <Text style={[styles.text, styles.centeredText, styles.mb10]}>
                 Habits will show here once they are added
+              </Text>
+              <Text style={[styles.text, styles.centeredText]}>
+                Click the plus button in the bottom right corner of your screen
+                to add a new habit.
               </Text>
             </View>
           )}
@@ -135,12 +141,20 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
+  mainTitle: {
+    fontSize: 35,
+    color: 'black',
+    marginBottom: 50,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   text: {
     color: 'black',
     fontSize: 16,
     lineHeight: 21,
     letterSpacing: 0.25,
   },
+  centeredText: {textAlign: 'center'},
   habitNameText: {
     color: 'black',
     fontSize: 18,
@@ -166,6 +180,9 @@ const styles = StyleSheet.create({
         translateY: 1.5,
       },
     ],
+  },
+  mb10: {
+    marginBottom: 10,
   },
 });
 
