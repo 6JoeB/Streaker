@@ -1,9 +1,8 @@
+import {setObjectValue} from './AsyncStorage';
+
 export const calculateCurrentStreak = (
   completedDays: string[],
   daysPerWeek: number,
-  setBestStreak,
-  setCurrentStreak,
-  setTotalDaysCompleted,
 ) => {
   // Order completedDays ascending
   let ascendingCompletedDays: string[] = completedDays.slice().sort((a, b) => {
@@ -66,7 +65,28 @@ export const calculateCurrentStreak = (
     });
   }
 
-  setBestStreak(possibleBestStreak);
-  setCurrentStreak(streak);
-  setTotalDaysCompleted(completedDays.length);
+  return {
+    bestStreak: possibleBestStreak,
+    currentStreak: streak,
+    totalDaysCompleted: completedDays.length,
+  };
+};
+
+export const updateHabit = async (
+  habitName: string,
+  habitDaysPerWeek: number,
+  habitCompletedDays: [],
+  habitCurrentStreak: number,
+  HabitBestStreak: number,
+  habitTotalDaysComplete: number,
+) => {
+  const success = await setObjectValue(habitName, {
+    name: habitName,
+    daysPerWeek: habitDaysPerWeek,
+    completedDays: habitCompletedDays,
+    currentStreak: habitCurrentStreak,
+    bestStreak: HabitBestStreak,
+    totalDaysCompleted: habitTotalDaysComplete,
+  });
+  return success;
 };

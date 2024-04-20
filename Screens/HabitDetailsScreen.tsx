@@ -59,13 +59,13 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   useEffect(() => {
     if (completedDays !== undefined) {
-      calculateCurrentStreak(
+      const newStreakData = calculateCurrentStreak(
         completedDays,
         habit.daysPerWeek,
-        setBestStreak,
-        setCurrentStreak,
-        setTotalDaysCompleted,
       );
+      setBestStreak(newStreakData.bestStreak);
+      setCurrentStreak(newStreakData.currentStreak);
+      setTotalDaysCompleted(newStreakData.totalDaysCompleted);
     }
   }, [completedDays, habit.daysPerWeek]);
 

@@ -12,6 +12,7 @@ import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {getAllKeys, getDataObjects} from '../utils/AsyncStorage';
+import {calculateCurrentStreak, updateHabit} from '../utils/HabitStreakHelper';
 
 const HomeScreen = ({navigation}) => {
   const [habits, setHabits] = useState([]);
@@ -30,16 +31,64 @@ const HomeScreen = ({navigation}) => {
     getDataObjects(asyncStorageKeys, setHabits);
   }, [asyncStorageKeys]);
 
-  const checkTodayCompleted = completedDays => {
+  useEffect(() => {
+    let habitsUpdated: number = 0;
+
+    habits.forEach(habit => {
+      const newStreakData = calculateCurrentStreak(
+        habit.completedDays,
+        habit.daysPerWeek,
+      );
+
+      if (
+        newStreakData.bestStreak !== habit.bestStreak ||
+        newStreakData.currentStreak !== habit.currentStreak ||
+        newStreakData.totalDaysCompleted !== habit.totalDaysCompleted
+      ) {
+        const success = updateHabit(
+          habit.name,
+          habit.daysPerWeek,
+          habit.completedDays,
+          newStreakData.currentStreak,
+          newStreakData.bestStreak,
+          newStreakData.totalDaysCompleted,
+        );
+        if (success) {
+          habitsUpdated++;
+        }
+      }
+    });
+
+    if (habitsUpdated > 0) {
+      getDataObjects(asyncStorageKeys, setHabits);
+    }
+  }, [habits]);
+
+  const formatTodaysDate = () => {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
 
-    today = yyyy + '-' + mm + '-' + dd;
-
-    return completedDays.includes(today);
+    return yyyy + '-' + mm + '-' + dd;
   };
+
+  const checkTodayCompleted = completedDays => {
+    return completedDays.includes(formatTodaysDate());
+  };
+
+  // const updateCompletedDays = (completedDays) => {
+  //   const day = formatTodaysDate();
+  //   if (completedDays === undefined) {
+  //     setCompletedDays([day]); // add first day
+  //   } else if (completedDays.includes(day)) {
+  //     setCompletedDays(completedDays.filter(item => item !== day)); // remove day
+  //   } else if (new Date() <= new Date(day)) {
+  //     return; // catch future date
+  //   } else {
+  //     setCompletedDays(prev => [...prev, day]); // add new day
+  //   }
+  // };
 
   return (
     <View style={{minHeight: windowHeight - 80}}>
@@ -77,7 +126,9 @@ const HomeScreen = ({navigation}) => {
                     <Text style={[styles.text, styles.centeredText]}>
                       Completed today?{' '}
                     </Text>
-                    <TouchableOpacity style={styles.radioOuter}>
+                    <TouchableOpacity
+                      style={styles.radioOuter}
+                      onPress={() => {}}>
                       {checkTodayCompleted(habit.completedDays) ? (
                         <View style={styles.radioInner} />
                       ) : null}
