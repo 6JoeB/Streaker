@@ -30,6 +30,17 @@ const HomeScreen = ({navigation}) => {
     getDataObjects(asyncStorageKeys, setHabits);
   }, [asyncStorageKeys]);
 
+  const checkTodayCompleted = completedDays => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+
+    return completedDays.includes(today);
+  };
+
   return (
     <View style={{minHeight: windowHeight - 80}}>
       <ScrollView
@@ -45,7 +56,7 @@ const HomeScreen = ({navigation}) => {
                   })
                 }>
                 <Text style={styles.habitNameText}>{habit.name}</Text>
-                <View style={styles.habitDetailsContainer}>
+                <View>
                   <View style={styles.habitRow}>
                     <Text style={styles.text}>
                       Current streak: {habit.currentStreak}
@@ -61,6 +72,16 @@ const HomeScreen = ({navigation}) => {
                     <Text style={styles.text}>
                       Completed days: {habit.completedDays.length}
                     </Text>
+                  </View>
+                  <View style={styles.completedTodayRow}>
+                    <Text style={[styles.text, styles.centeredText]}>
+                      Completed today?{' '}
+                    </Text>
+                    <TouchableOpacity style={styles.radioOuter}>
+                      {checkTodayCompleted(habit.completedDays) ? (
+                        <View style={styles.radioInner} />
+                      ) : null}
+                    </TouchableOpacity>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -115,9 +136,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     elevation: 2,
   },
-  habitDetailsContainer: {
-    height: 40,
-  },
   centeredContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -131,6 +149,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  completedTodayRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 5,
   },
   title: {
     fontSize: 30,
@@ -184,6 +208,16 @@ const styles = StyleSheet.create({
   mb10: {
     marginBottom: 10,
   },
+  radioOuter: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  radioInner: {height: 12, width: 12, borderRadius: 6, backgroundColor: '#000'},
 });
 
 export default HomeScreen;
