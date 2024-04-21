@@ -163,9 +163,12 @@ const HomeScreen = ({navigation}) => {
               <Text style={[styles.text, styles.centeredText, styles.mb10]}>
                 Habits will show here once they are added.
               </Text>
+              <Text style={[styles.text, styles.centeredText, styles.mb10]}>
+                They can be tapped on to edit, delete or fill in completed days.
+              </Text>
               <Text style={[styles.text, styles.centeredText]}>
-                Click the plus button in the bottom right corner of your screen
-                to add a new habit.
+                Click the plus button in the bottom right corner to add a new
+                habit.
               </Text>
             </View>
           )}
