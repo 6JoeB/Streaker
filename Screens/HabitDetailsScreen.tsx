@@ -249,6 +249,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginLeft: 'auto',
     marginRight: 'auto',
+    textAlign: 'center',
   },
   text: {
     color: 'black',
