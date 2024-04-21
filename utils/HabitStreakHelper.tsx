@@ -75,7 +75,7 @@ export const calculateCurrentStreak = (
 export const updateHabit = async (
   habitName: string,
   habitDaysPerWeek: number,
-  habitCompletedDays: [],
+  habitCompletedDays: string[],
   habitCurrentStreak: number,
   HabitBestStreak: number,
   habitTotalDaysComplete: number,

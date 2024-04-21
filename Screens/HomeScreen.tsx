@@ -77,18 +77,35 @@ const HomeScreen = ({navigation}) => {
     return completedDays.includes(formatTodaysDate());
   };
 
-  // const updateCompletedDays = (completedDays) => {
-  //   const day = formatTodaysDate();
-  //   if (completedDays === undefined) {
-  //     setCompletedDays([day]); // add first day
-  //   } else if (completedDays.includes(day)) {
-  //     setCompletedDays(completedDays.filter(item => item !== day)); // remove day
-  //   } else if (new Date() <= new Date(day)) {
-  //     return; // catch future date
-  //   } else {
-  //     setCompletedDays(prev => [...prev, day]); // add new day
-  //   }
-  // };
+  const updateCompletedDays = async (habit: any) => {
+    const day: string = formatTodaysDate();
+    const dateCompleted: boolean = checkTodayCompleted(habit.completedDays);
+    let newCompletedDays: string[] = [];
+
+    if (dateCompleted) {
+      newCompletedDays = habit.completedDays.filter(item => item !== day); // remove day
+    } else {
+      newCompletedDays = habit.completedDays.slice();
+      newCompletedDays.push(day); // add day
+    }
+    const newStreakData = calculateCurrentStreak(
+      newCompletedDays,
+      habit.daysPerWeek,
+    ); // calculate new streak data
+
+    const success = await updateHabit(
+      habit.name,
+      habit.daysPerWeek,
+      newCompletedDays,
+      newStreakData.currentStreak,
+      newStreakData.bestStreak,
+      newStreakData.totalDaysCompleted,
+    ); // update habit with new streak data
+
+    if (success) {
+      getDataObjects(asyncStorageKeys, setHabits);
+    } // retrieve new habit data
+  };
 
   return (
     <View style={{minHeight: windowHeight - 80}}>
@@ -128,7 +145,9 @@ const HomeScreen = ({navigation}) => {
                     </Text>
                     <TouchableOpacity
                       style={styles.radioOuter}
-                      onPress={() => {}}>
+                      onPress={() => {
+                        updateCompletedDays(habit);
+                      }}>
                       {checkTodayCompleted(habit.completedDays) ? (
                         <View style={styles.radioInner} />
                       ) : null}

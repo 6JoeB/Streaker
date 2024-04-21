@@ -47,7 +47,7 @@ Habit tracker with a widget that shows your current streak
 
 ### NTH
 
-- [ ] Home screen habits have easy button to set todays date to complete
+- [x] Home screen habits have easy button to set todays date to complete
 - [ ] Add habit screen name text input should slow rotate through suggestions as placeholders
 - [x] Habit detail screen loading spinner
 - [ ] Reminder at chosen time
