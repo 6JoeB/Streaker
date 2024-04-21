@@ -52,7 +52,7 @@ Habit tracker with a widget that shows your current streak
 - [x] Habit detail screen loading spinner
 - [ ] Reminder at chosen time
 - [ ] After successful edit show success toast
-- [ ] Home screen with no habits could be intro screen
+- [x] Home screen with no habits could be intro screen
 - [ ] loading to edit habit screen
 
 ### Bugs

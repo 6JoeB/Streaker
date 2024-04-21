@@ -161,7 +161,7 @@ const HomeScreen = ({navigation}) => {
               <Text style={[styles.text, styles.centeredText]}>Welcome to</Text>
               <Text style={styles.mainTitle}>Streaker</Text>
               <Text style={[styles.text, styles.centeredText, styles.mb10]}>
-                Habits will show here once they are added
+                Habits will show here once they are added.
               </Text>
               <Text style={[styles.text, styles.centeredText]}>
                 Click the plus button in the bottom right corner of your screen
