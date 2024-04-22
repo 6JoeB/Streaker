@@ -47,21 +47,13 @@ Habit tracker with a widget that shows your current streak
 
 ### NTH
 
-- [ ] Home screen habits have easy button to set todays date to complete
+- [x] Home screen habits have easy button to set todays date to complete
 - [ ] Add habit screen name text input should slow rotate through suggestions as placeholders
-- [ ] Habits can have:
-  - [ ] Colour
-  - [ ] Emoji https://www.npmjs.com/package/emoji-picker-react
-  - [ ] Complete total minutes per week instead of days
-  - [ ] Breaking a habit options (like smoking etc)
-- [ ] Streak time achievements (6 weeks etc)
-- [ ] Streak time leaderboard
-- [ ] Habit detail screen loading spinner
-- [ ] View habit screen
-  - [ ] Best streak
+- [x] Habit detail screen loading spinner
 - [ ] Reminder at chosen time
 - [ ] After successful edit show success toast
-- [ ] Home screen with no habits could be intro screen
+- [x] Home screen with no habits could be intro screen
+- [ ] loading to edit habit screen
 
 ### Bugs
 
@@ -69,3 +61,15 @@ Habit tracker with a widget that shows your current streak
 - [x] 2: Add habit button text not centered
 - [ ] 3: Streak calculates total completed days should this include missed days of a week if aim is less than 7
 - [ ] 4: [TypeError: Cannot read property 'color' of undefined]
+
+### Ideation
+
+- [ ] Habits can have:
+  - [ ] Colour
+  - [ ] Emoji https://www.npmjs.com/package/emoji-picker-react
+  - [ ] Complete total minutes per week instead of days
+  - [ ] Breaking a habit options (like smoking etc)
+- [ ] Streak time achievements (6 weeks etc)
+- [ ] Streak time leaderboard
+- [ ] Show cumulative days/weeks spend achieving habits
+- [ ] Change DB

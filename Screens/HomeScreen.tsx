@@ -12,6 +12,7 @@ import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {getAllKeys, getDataObjects} from '../utils/AsyncStorage';
+import {calculateCurrentStreak, updateHabit} from '../utils/HabitStreakHelper';
 
 const HomeScreen = ({navigation}) => {
   const [habits, setHabits] = useState([]);
@@ -30,6 +31,82 @@ const HomeScreen = ({navigation}) => {
     getDataObjects(asyncStorageKeys, setHabits);
   }, [asyncStorageKeys]);
 
+  useEffect(() => {
+    let habitsUpdated: number = 0;
+
+    habits.forEach(habit => {
+      const newStreakData = calculateCurrentStreak(
+        habit.completedDays,
+        habit.daysPerWeek,
+      );
+
+      if (
+        newStreakData.bestStreak !== habit.bestStreak ||
+        newStreakData.currentStreak !== habit.currentStreak ||
+        newStreakData.totalDaysCompleted !== habit.totalDaysCompleted
+      ) {
+        const success = updateHabit(
+          habit.name,
+          habit.daysPerWeek,
+          habit.completedDays,
+          newStreakData.currentStreak,
+          newStreakData.bestStreak,
+          newStreakData.totalDaysCompleted,
+        );
+        if (success) {
+          habitsUpdated++;
+        }
+      }
+    });
+
+    if (habitsUpdated > 0) {
+      getDataObjects(asyncStorageKeys, setHabits);
+    }
+  }, [habits]);
+
+  const formatTodaysDate = () => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    return yyyy + '-' + mm + '-' + dd;
+  };
+
+  const checkTodayCompleted = completedDays => {
+    return completedDays.includes(formatTodaysDate());
+  };
+
+  const updateCompletedDays = async (habit: any) => {
+    const day: string = formatTodaysDate();
+    const dateCompleted: boolean = checkTodayCompleted(habit.completedDays);
+    let newCompletedDays: string[] = [];
+
+    if (dateCompleted) {
+      newCompletedDays = habit.completedDays.filter(item => item !== day); // remove day
+    } else {
+      newCompletedDays = habit.completedDays.slice();
+      newCompletedDays.push(day); // add day
+    }
+    const newStreakData = calculateCurrentStreak(
+      newCompletedDays,
+      habit.daysPerWeek,
+    ); // calculate new streak data
+
+    const success = await updateHabit(
+      habit.name,
+      habit.daysPerWeek,
+      newCompletedDays,
+      newStreakData.currentStreak,
+      newStreakData.bestStreak,
+      newStreakData.totalDaysCompleted,
+    ); // update habit with new streak data
+
+    if (success) {
+      getDataObjects(asyncStorageKeys, setHabits);
+    } // retrieve new habit data
+  };
+
   return (
     <View style={{minHeight: windowHeight - 80}}>
       <ScrollView
@@ -45,7 +122,7 @@ const HomeScreen = ({navigation}) => {
                   })
                 }>
                 <Text style={styles.habitNameText}>{habit.name}</Text>
-                <View style={styles.habitDetailsContainer}>
+                <View>
                   <View style={styles.habitRow}>
                     <Text style={styles.text}>
                       Current streak: {habit.currentStreak}
@@ -62,13 +139,36 @@ const HomeScreen = ({navigation}) => {
                       Completed days: {habit.completedDays.length}
                     </Text>
                   </View>
+                  <View style={styles.completedTodayRow}>
+                    <Text style={[styles.text, styles.centeredText]}>
+                      Completed today?{' '}
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.radioOuter}
+                      onPress={() => {
+                        updateCompletedDays(habit);
+                      }}>
+                      {checkTodayCompleted(habit.completedDays) ? (
+                        <View style={styles.radioInner} />
+                      ) : null}
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </TouchableOpacity>
             ))
           ) : (
             <View style={styles.centeredContainer}>
+              <Text style={[styles.text, styles.centeredText]}>Welcome to</Text>
+              <Text style={styles.mainTitle}>Streaker</Text>
+              <Text style={[styles.text, styles.centeredText, styles.mb10]}>
+                Habits will show here once they are added.
+              </Text>
+              <Text style={[styles.text, styles.centeredText, styles.mb10]}>
+                They can be tapped on to edit, delete or fill in completed days.
+              </Text>
               <Text style={[styles.text, styles.centeredText]}>
-                Habits will show here once they are added
+                Click the plus button in the bottom right corner to add a new
+                habit.
               </Text>
             </View>
           )}
@@ -109,9 +209,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     elevation: 2,
   },
-  habitDetailsContainer: {
-    height: 40,
-  },
   centeredContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -126,6 +223,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  completedTodayRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 5,
+  },
   title: {
     fontSize: 30,
     color: 'black',
@@ -135,12 +238,20 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
+  mainTitle: {
+    fontSize: 35,
+    color: 'black',
+    marginBottom: 50,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   text: {
     color: 'black',
     fontSize: 16,
     lineHeight: 21,
     letterSpacing: 0.25,
   },
+  centeredText: {textAlign: 'center'},
   habitNameText: {
     color: 'black',
     fontSize: 18,
@@ -167,6 +278,19 @@ const styles = StyleSheet.create({
       },
     ],
   },
+  mb10: {
+    marginBottom: 10,
+  },
+  radioOuter: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  radioInner: {height: 12, width: 12, borderRadius: 6, backgroundColor: '#000'},
 });
 
 export default HomeScreen;

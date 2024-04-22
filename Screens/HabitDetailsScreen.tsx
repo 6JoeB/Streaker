@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Pressable, Modal} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Modal,
+  ActivityIndicator,
+} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {useIsFocused} from '@react-navigation/native';
 import {requestWidgetUpdate} from 'react-native-android-widget';
@@ -21,7 +28,6 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   const [currentStreak, setCurrentStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [totalDaysCompleted, setTotalDaysCompleted] = useState(0);
-  const [aimPerWeek, setAimPerWeek] = useState(0);
   const [futureDateError, setFutureDateError] = useState(false);
   const [confirmDeleteModalVisible, setConfirmDeleteModalVisible] =
     useState(false);
@@ -53,13 +59,13 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   useEffect(() => {
     if (completedDays !== undefined) {
-      calculateCurrentStreak(
+      const newStreakData = calculateCurrentStreak(
         completedDays,
         habit.daysPerWeek,
-        setBestStreak,
-        setCurrentStreak,
-        setTotalDaysCompleted,
       );
+      setBestStreak(newStreakData.bestStreak);
+      setCurrentStreak(newStreakData.currentStreak);
+      setTotalDaysCompleted(newStreakData.totalDaysCompleted);
     }
   }, [completedDays, habit.daysPerWeek]);
 
@@ -147,7 +153,8 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       </Modal>
       {loading ? (
         <View style={styles.container}>
-          <Text style={[styles.text, styles.centered]}>Loading..</Text>
+          <Text style={[styles.text, styles.centered]}>Loading</Text>
+          <ActivityIndicator style={styles.loadingSpinner} color={'#219ebc'} />
         </View>
       ) : habit !== undefined ? (
         <View style={styles.container}>
@@ -242,6 +249,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginLeft: 'auto',
     marginRight: 'auto',
+    textAlign: 'center',
   },
   text: {
     color: 'black',
@@ -281,5 +289,8 @@ const styles = StyleSheet.create({
   calendar: {
     marginTop: 10,
     marginBottom: 50,
+  },
+  loadingSpinner: {
+    marginTop: 5,
   },
 });
