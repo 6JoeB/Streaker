@@ -72,3 +72,4 @@ Habit tracker with a widget that shows your current streak
 - [ ] Streak time achievements (6 weeks etc)
 - [ ] Streak time leaderboard
 - [ ] Show cumulative days/weeks spend achieving habits
+- [ ] Change DB
