@@ -131,14 +131,6 @@ const HomeScreen = ({navigation}) => {
                       Best streak: {habit.bestStreak}
                     </Text>
                   </View>
-                  <View style={styles.habitRow}>
-                    <Text style={styles.text}>
-                      Weekly aim: {habit.daysPerWeek}
-                    </Text>
-                    <Text style={styles.text}>
-                      Completed days: {habit.completedDays.length}
-                    </Text>
-                  </View>
                   <View style={styles.completedTodayRow}>
                     <Text style={[styles.text, styles.centeredText]}>
                       Completed today?{' '}
