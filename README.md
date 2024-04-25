@@ -54,16 +54,17 @@ Habit tracker with a widget that shows your current streak
 - [ ] After successful edit show success toast
 - [x] Home screen with no habits could be intro screen
 - [ ] loading to edit habit screen
+- [ ] Error message for future dates should not push buttons down when it shows
 
 ### Bugs
 
 - [x] 1: Add habit button not staying at bottom of screen when no habits showing
 - [x] 2: Add habit button text not centered
-- [ ] 3: Streak calculates total completed days should this include missed days of a week if aim is less than 7
-- [ ] 4: [TypeError: Cannot read property 'color' of undefined]
+- [ ] 3: [TypeError: Cannot read property 'color' of undefined]
 
 ### Ideation
 
+- [ ] Streak calculates total completed days should this include missed days of a week if aim is less than 7
 - [ ] Habits can have:
   - [ ] Colour
   - [ ] Emoji https://www.npmjs.com/package/emoji-picker-react
@@ -73,3 +74,4 @@ Habit tracker with a widget that shows your current streak
 - [ ] Streak time leaderboard
 - [ ] Show cumulative days/weeks spend achieving habits
 - [ ] Change DB
+- [ ] Calender slow sometimes

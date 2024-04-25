@@ -269,6 +269,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
   },
   buttonRow: {
+    marginTop: 35,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
   },
@@ -288,7 +289,7 @@ const styles = StyleSheet.create({
   },
   calendar: {
     marginTop: 10,
-    marginBottom: 50,
+    marginBottom: 15,
   },
   loadingSpinner: {
     marginTop: 5,
