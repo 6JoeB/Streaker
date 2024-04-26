@@ -16,9 +16,12 @@ export const calculateCurrentStreak = (
   let streak: number = 0;
   let possibleBestStreak: number = 0;
   let dateToCheckStreakFromString: string = ascendingCompletedDays[0];
-  const lastDateStreakAchieved: string = [
-    ascendingCompletedDays[ascendingCompletedDays.length - 1],
-  ];
+  let lastDateStreakAchieved: string;
+  if (ascendingCompletedDays.length > 0) {
+    lastDateStreakAchieved = [
+      ascendingCompletedDays[ascendingCompletedDays.length - 1],
+    ];
+  }
   let daysSinceMissedDate: number = 0;
 
   // Check if there is a streak within the allowed missing days
@@ -100,29 +103,31 @@ export const calculateCurrentStreak = (
   }
 
   // Check if the gap between the last date achieved and today is larger than allowedMissingDays and thus the streak has ended
-  const oneDay: number = 24 * 60 * 60 * 1000;
-  const daysBetweenLastDateHabitAchievedAndToday: number =
-    Math.round(
-      Math.abs((new Date(lastDateStreakAchieved) - new Date()) / oneDay),
-    ) - 2;
+  if (lastDateStreakAchieved !== undefined) {
+    const oneDay: number = 24 * 60 * 60 * 1000;
+    const daysBetweenLastDateHabitAchievedAndToday: number =
+      Math.round(
+        Math.abs((new Date(lastDateStreakAchieved) - new Date()) / oneDay),
+      ) - 2;
 
-  if (daysBetweenLastDateHabitAchievedAndToday > allowedMissingDays) {
-    // If streak is not active, check for possible best streak and subtract daysSinceMissedDate then set streak to 0
-    if (streak - daysSinceMissedDate >= possibleBestStreak) {
-      console.log(
-        '3. setting best streak at: ' +
-          streak +
-          ', minus: ' +
-          daysSinceMissedDate,
-      );
+    console.log(daysBetweenLastDateHabitAchievedAndToday);
+    if (daysBetweenLastDateHabitAchievedAndToday > allowedMissingDays) {
+      // If streak is not active, check for possible best streak and subtract daysSinceMissedDate then set streak to 0
+      if (streak - daysSinceMissedDate >= possibleBestStreak) {
+        console.log(
+          '3. setting best streak at: ' +
+            streak +
+            ', minus: ' +
+            daysSinceMissedDate,
+        );
 
-      possibleBestStreak = streak - daysSinceMissedDate;
+        possibleBestStreak = streak - daysSinceMissedDate;
+      }
+      streak = 0;
+    } else {
+      // streak = streak + daysBetweenLastDateHabitAchievedAndToday;
     }
-    streak = 0;
-  } else {
-    streak = streak + daysBetweenLastDateHabitAchievedAndToday;
   }
-
   // Check for possible best streak in active streak
   if (streak > possibleBestStreak) {
     console.log('2. setting best streak at: ' + streak);
