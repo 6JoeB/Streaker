@@ -4,8 +4,6 @@ export const calculateCurrentStreak = (
   completedDays: string[],
   daysPerWeek: number,
 ) => {
-  console.log('---------------------------------');
-
   // Order completedDays ascending
   let ascendingCompletedDays: string[] = completedDays.slice().sort((a, b) => {
     return new Date(a) - new Date(b);
@@ -26,7 +24,6 @@ export const calculateCurrentStreak = (
 
   // Check if there is a streak within the allowed missing days
   while (ascendingCompletedDays.length > 0) {
-    console.log('in loop');
     // Setup array of with 1 weeks worth of dates starting from first date in completedDays
     let weeksDates: string[] = [];
 
@@ -71,14 +68,6 @@ export const calculateCurrentStreak = (
       if (weeksMissedDates > allowedMissingDays) {
         // Check for possible best streak in failed streak
         if (streak - daysSinceMissedDate >= possibleBestStreak) {
-          console.log(
-            '1. setting best streak at: ' +
-              streak +
-              ', minus: ' +
-              daysSinceMissedDate +
-              ' at date: ' +
-              date,
-          );
           possibleBestStreak = streak - daysSinceMissedDate;
         }
 
@@ -110,17 +99,9 @@ export const calculateCurrentStreak = (
         Math.abs((new Date(lastDateStreakAchieved) - new Date()) / oneDay),
       ) - 2;
 
-    console.log(daysBetweenLastDateHabitAchievedAndToday);
     if (daysBetweenLastDateHabitAchievedAndToday > allowedMissingDays) {
       // If streak is not active, check for possible best streak and subtract daysSinceMissedDate then set streak to 0
       if (streak - daysSinceMissedDate >= possibleBestStreak) {
-        console.log(
-          '3. setting best streak at: ' +
-            streak +
-            ', minus: ' +
-            daysSinceMissedDate,
-        );
-
         possibleBestStreak = streak - daysSinceMissedDate;
       }
       streak = 0;
@@ -130,8 +111,6 @@ export const calculateCurrentStreak = (
   }
   // Check for possible best streak in active streak
   if (streak > possibleBestStreak) {
-    console.log('2. setting best streak at: ' + streak);
-
     possibleBestStreak = streak;
   }
 
@@ -150,18 +129,6 @@ export const updateHabit = async (
   HabitBestStreak: number,
   habitTotalDaysComplete: number,
 ) => {
-  console.log(
-    habitName +
-      ': daysperweek: ' +
-      habitDaysPerWeek +
-      ' current streak: ' +
-      habitCurrentStreak +
-      ' best streak: ' +
-      HabitBestStreak +
-      ' completed days: ' +
-      habitCompletedDays,
-  );
-  console.log(habitCompletedDays);
   const success = await setObjectValue(habitName, {
     name: habitName,
     daysPerWeek: habitDaysPerWeek,
