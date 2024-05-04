@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.streaker"
+    namespace "com.streaker.app"
     defaultConfig {
-        applicationId "com.streaker"
+        applicationId "com.streaker.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
