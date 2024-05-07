@@ -45,25 +45,31 @@ Habit tracker with a widget that shows your current streak
   - [x] Progessively more urgent messages to not lose the streak
   - [ ] Styling
 
-### NTH
-
-- [x] Home screen habits have easy button to set todays date to complete
-- [ ] Add habit screen name text input should slow rotate through suggestions as placeholders
-- [x] Habit detail screen loading spinner
-- [ ] Reminder at chosen time
-- [ ] After successful edit show success toast
-- [x] Home screen with no habits could be intro screen
-- [ ] loading to edit habit screen
-
 ### Bugs
 
 - [x] 1: Add habit button not staying at bottom of screen when no habits showing
 - [x] 2: Add habit button text not centered
-- [ ] 3: Streak calculates total completed days should this include missed days of a week if aim is less than 7
-- [ ] 4: [TypeError: Cannot read property 'color' of undefined]
+- [ ] 3: [TypeError: Cannot read property 'color' of undefined]
+- [ ] 4: That day is in the future warning has trouble just after midnight
+- [x] 5: Calender slow sometimes
+
+### NTH
+
+- [x] Home screen habits have easy button to set todays date to complete
+- [x] Habit detail screen loading spinner
+- [x] Home screen with no habits could be intro screen
+- [ ] Have option for required minutes per day
+- [ ] Reminders, daily at chosen time, only if habit needs to be achieved today to not break streak?
+- [ ] Error message for future dates should not push buttons down when it shows
+- [ ] Colour picker for habits
 
 ### Ideation
 
+- [ ] Once past certain amount of days show years/months/weeks etc
+- [ ] Cumulative days streaks as a score vs previous best
+- [ ] Add habit screen name text input should slow rotate through suggestions as placeholders
+- [ ] After successful edit show success toast
+- [ ] Streak calculates total completed days should this include missed days of a week if aim is less than 7
 - [ ] Habits can have:
   - [ ] Colour
   - [ ] Emoji https://www.npmjs.com/package/emoji-picker-react

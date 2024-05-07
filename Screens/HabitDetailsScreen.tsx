@@ -66,19 +66,10 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       setBestStreak(newStreakData.bestStreak);
       setCurrentStreak(newStreakData.currentStreak);
       setTotalDaysCompleted(newStreakData.totalDaysCompleted);
-    }
-  }, [completedDays, habit.daysPerWeek]);
 
-  useEffect(() => {
-    if (
-      completedDays !== habit.completedDays ||
-      bestStreak !== habit.bestStreak ||
-      currentStreak !== habit.currentStreak ||
-      totalDaysCompleted !== habit.totalDaysCompleted
-    ) {
       updateHabit();
     }
-  }, [completedDays, bestStreak, currentStreak, totalDaysCompleted]);
+  }, [completedDays, habit.daysPerWeek]);
 
   const updateCompletedDays = (day: string) => {
     setFutureDateError(false);
@@ -94,7 +85,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   };
 
   const updateHabit = async () => {
-    const success = await setObjectValue(habit.name, {
+    await setObjectValue(habit.name, {
       name: habit.name,
       daysPerWeek: habit.daysPerWeek,
       completedDays: completedDays,
@@ -102,9 +93,6 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       bestStreak: bestStreak,
       totalDaysCompleted: totalDaysCompleted,
     });
-    if (success) {
-      getDataObject(name, setHabit);
-    }
   };
 
   const deleteHabit = async () => {
@@ -269,6 +257,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
   },
   buttonRow: {
+    marginTop: 35,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
   },
@@ -288,7 +277,7 @@ const styles = StyleSheet.create({
   },
   calendar: {
     marginTop: 10,
-    marginBottom: 50,
+    marginBottom: 15,
   },
   loadingSpinner: {
     marginTop: 5,

@@ -1,4 +1,4 @@
-package com.streaker;
+package com.streaker.app;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
