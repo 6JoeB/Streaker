@@ -58,8 +58,10 @@ Habit tracker with a widget that shows your current streak
 - [x] Home screen habits have easy button to set todays date to complete
 - [x] Habit detail screen loading spinner
 - [x] Home screen with no habits could be intro screen
-- [ ] Have option for required minutes per day
+- [ ] Show date the streak was started on
+- [ ] Home screen should show the habits that need to be done today or else the streak will be lost
 - [ ] Reminders, daily at chosen time, only if habit needs to be achieved today to not break streak?
+- [ ] Have option for required minutes per day
 - [ ] Error message for future dates should not push buttons down when it shows
 - [ ] Colour picker for habits
 
@@ -69,7 +71,7 @@ Habit tracker with a widget that shows your current streak
 - [ ] Cumulative days streaks as a score vs previous best
 - [ ] Add habit screen name text input should slow rotate through suggestions as placeholders
 - [ ] After successful edit show success toast
-- [ ] Streak calculates total completed days should this include missed days of a week if aim is less than 7
+- [ ] Streak calculates total completed days should this include missed days of a week if aim is less than 7?
 - [ ] Habits can have:
   - [ ] Colour
   - [ ] Emoji https://www.npmjs.com/package/emoji-picker-react
@@ -80,3 +82,4 @@ Habit tracker with a widget that shows your current streak
 - [ ] Show cumulative days/weeks spend achieving habits
 - [ ] Change DB
 - [ ] Changing habit frequency doesnt disrupt old streak at other frequency
+- [ ] Google analytics on habit creation
