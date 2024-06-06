@@ -58,7 +58,7 @@ Habit tracker with a widget that shows your current streak
 - [x] Home screen habits have easy button to set todays date to complete
 - [x] Habit detail screen loading spinner
 - [x] Home screen with no habits could be intro screen
-- [ ] Show date the streak was started on
+- [x] Show date the streak was started on
 - [ ] Home screen should show the habits that need to be done today or else the streak will be lost
 - [ ] Reminders, daily at chosen time, only if habit needs to be achieved today to not break streak?
 - [ ] Have option for required minutes per day
