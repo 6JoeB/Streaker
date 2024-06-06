@@ -84,3 +84,4 @@ Habit tracker with a widget that shows your current streak
 - [ ] Changing habit frequency doesnt disrupt old streak at other frequency
 - [ ] Google analytics on habit creation
 - [ ] Completed days should be out of possible days since the habit was started, this could be optional to see
+- [ ] Compact and detailed view for home screen habit cards
