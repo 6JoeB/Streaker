@@ -50,7 +50,7 @@ Habit tracker with a widget that shows your current streak
 - [x] 1: Add habit button not staying at bottom of screen when no habits showing
 - [x] 2: Add habit button text not centered
 - [ ] 3: [TypeError: Cannot read property 'color' of undefined]
-- [ ] 4: That day is in the future warning has trouble just after midnight
+- [x] 4: That day is in the future warning has trouble just after midnight because new Date() 1 hour behind due to daylight savings
 - [x] 5: Calender slow sometimes
 
 ### NTH

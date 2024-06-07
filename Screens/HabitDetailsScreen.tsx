@@ -75,11 +75,16 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   const updateCompletedDays = (day: string) => {
     setFutureDateError(false);
+    const timezoneOffset = new Date().getTimezoneOffset();
+    const localTime = new Date(
+      new Date().getTime() - timezoneOffset * 1000 * 60,
+    );
+
     if (completedDays === undefined) {
       setCompletedDays([day]); // add first day
     } else if (completedDays.includes(day)) {
       setCompletedDays(completedDays.filter(item => item !== day)); // remove day
-    } else if (new Date() <= new Date(day)) {
+    } else if (localTime <= new Date(day)) {
       setFutureDateError(true); // catch future date
     } else {
       setCompletedDays(prev => [...prev, day]); // add new day
