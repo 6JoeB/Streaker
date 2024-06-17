@@ -52,6 +52,7 @@ Habit tracker with a widget that shows your current streak
 - [ ] 3: [TypeError: Cannot read property 'color' of undefined]
 - [x] 4: That day is in the future warning has trouble just after midnight because new Date() 1 hour behind due to daylight savings
 - [x] 5: Calender slow sometimes
+- [ ] 6: Clicking complted today between 12am and 1am crashes app
 
 ### NTH
 
