@@ -73,13 +73,11 @@ const HomeScreen = ({navigation}) => {
     return yyyy + '-' + mm + '-' + dd;
   };
 
-  const checkTodayCompleted = completedDays => {
-    return completedDays.includes(formatTodaysDate());
-  };
-
   const updateCompletedDays = async (habit: any) => {
     const day: string = formatTodaysDate();
-    const dateCompleted: boolean = checkTodayCompleted(habit.completedDays);
+    const dateCompleted: boolean = habit.completedDays.includes(
+      formatTodaysDate(),
+    );
     let newCompletedDays: string[] = [];
 
     if (dateCompleted) {
@@ -140,7 +138,7 @@ const HomeScreen = ({navigation}) => {
                       onPress={() => {
                         updateCompletedDays(habit);
                       }}>
-                      {checkTodayCompleted(habit.completedDays) ? (
+                      {habit.completedDays.includes(formatTodaysDate()) ? (
                         <View style={styles.radioInner} />
                       ) : null}
                     </TouchableOpacity>
