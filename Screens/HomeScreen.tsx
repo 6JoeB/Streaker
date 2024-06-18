@@ -18,6 +18,7 @@ import {
   getCurrentLocalDate,
   updateHabit,
 } from '../utils/HabitStreakHelper';
+import {theme} from '../utils/Theme';
 
 const HomeScreen = ({navigation}) => {
   const [habits, setHabits] = useState([]);
@@ -161,14 +162,24 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <View style={{minHeight: windowHeight - 80}}>
-      <View>
-        {habitsToCompleteToday.map(habit => {
-          return <Text>{habit}</Text>;
-        })}
-      </View>
       <ScrollView
         contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
         <View style={styles.habitsContainer}>
+          {asyncStorageKeys.length > 0 && habits.length > 0 && (
+            <View style={styles.todaysHabitContainer}>
+              <Text style={styles.habitNameText}>
+                Habits that need to be completed today:
+              </Text>
+              {habitsToCompleteToday.length > 0 ? (
+                habitsToCompleteToday.map(habit => {
+                  return <Text style={styles.text}>{habit}</Text>;
+                })
+              ) : (
+                <Text style={styles.text}>All complete today, well done!</Text>
+              )}
+            </View>
+          )}
+
           {asyncStorageKeys.length > 0 && habits.length > 0 ? (
             habits.map(habit => (
               <TouchableOpacity
@@ -312,7 +323,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {position: 'absolute', bottom: 20, right: 20},
   button: {
-    backgroundColor: '#219ebc',
+    backgroundColor: theme.button,
     width: 75,
     height: 75,
     borderRadius: 100,
@@ -340,6 +351,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   radioInner: {height: 12, width: 12, borderRadius: 6, backgroundColor: '#000'},
+  todaysHabitContainer: {
+    width: '80%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 20,
+    borderRadius: 15,
+    padding: 20,
+    backgroundColor: theme.secondaryColour,
+    overflow: 'hidden',
+    elevation: 2,
+  },
 });
 
 export default HomeScreen;
