@@ -12,11 +12,17 @@ import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {getAllKeys, getDataObjects} from '../utils/AsyncStorage';
-import {calculateCurrentStreak, updateHabit} from '../utils/HabitStreakHelper';
+import {
+  calculateCurrentStreak,
+  dayIncrement,
+  getCurrentLocalDate,
+  updateHabit,
+} from '../utils/HabitStreakHelper';
 
 const HomeScreen = ({navigation}) => {
   const [habits, setHabits] = useState([]);
   const [asyncStorageKeys, setAsyncStorageKeys] = useState([]);
+  const [habitsToCompleteToday, setHabitsToCompleteToday] = useState([]);
 
   const isFocused = useIsFocused();
   const windowHeight = Dimensions.get('window').height;
@@ -33,6 +39,7 @@ const HomeScreen = ({navigation}) => {
 
   useEffect(() => {
     let habitsUpdated: number = 0;
+    let newHabitsToCompleteToday = [];
 
     habits.forEach(habit => {
       const newStreakData = calculateCurrentStreak(
@@ -57,11 +64,18 @@ const HomeScreen = ({navigation}) => {
           habitsUpdated++;
         }
       }
+
+      calculateIfHabitRequiresCompletionToday(
+        habit,
+        newHabitsToCompleteToday,
+        newStreakData.dateCurrentWeekOfStreakStartedFrom,
+      );
     });
 
     if (habitsUpdated > 0) {
       getDataObjects(asyncStorageKeys, setHabits);
     }
+    setHabitsToCompleteToday(newHabitsToCompleteToday);
   }, [habits]);
 
   const formatTodaysDate = () => {
@@ -105,8 +119,53 @@ const HomeScreen = ({navigation}) => {
     } // retrieve new habit data
   };
 
+  const calculateIfHabitRequiresCompletionToday = (
+    habit,
+    newHabitsToCompleteToday,
+    dateCurrentWeekOfStreakStartedFrom,
+  ) => {
+    // If streak is 0 habit needs to be done today
+    if (habit.currentStreak === 0) {
+      newHabitsToCompleteToday.push(habit.name);
+    }
+
+    // If today is included in completed days, habit doesn't need to be done today
+    if (habit.completedDays.includes(formatTodaysDate())) {
+      return;
+    }
+
+    // Create an array of the current streak weeks dates that are not in the future and calculate days left in the streak
+    let weeksDates: String[] = [];
+    let daysLeftInStreak: number = 1;
+    for (let day = 0; day < 7; day++) {
+      const date = dayIncrement(dateCurrentWeekOfStreakStartedFrom, day);
+      if (new Date(date) < getCurrentLocalDate()) {
+        weeksDates.push(dayIncrement(dateCurrentWeekOfStreakStartedFrom, day));
+      } else {
+        daysLeftInStreak++;
+      }
+    }
+
+    // Calculate how many days there are left to complete
+    let daysToCompleteThisWeek: number = habit.daysPerWeek;
+    weeksDates.forEach(day => {
+      if (habit.completedDays.includes(day)) {
+        daysToCompleteThisWeek--;
+      }
+    });
+
+    if (daysToCompleteThisWeek === daysLeftInStreak) {
+      newHabitsToCompleteToday.push(habit.name);
+    }
+  };
+
   return (
     <View style={{minHeight: windowHeight - 80}}>
+      <View>
+        {habitsToCompleteToday.map(habit => {
+          return <Text>{habit}</Text>;
+        })}
+      </View>
       <ScrollView
         contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
         <View style={styles.habitsContainer}>
