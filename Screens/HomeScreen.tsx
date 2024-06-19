@@ -80,7 +80,7 @@ const HomeScreen = ({navigation}) => {
   }, [habits]);
 
   const formatTodaysDate = () => {
-    var today = new Date();
+    var today = getCurrentLocalDate();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
@@ -101,11 +101,14 @@ const HomeScreen = ({navigation}) => {
       newCompletedDays = habit.completedDays.slice();
       newCompletedDays.push(day); // add day
     }
+
+    // calculate new streak data
     const newStreakData = calculateCurrentStreak(
       newCompletedDays,
       habit.daysPerWeek,
-    ); // calculate new streak data
+    );
 
+    // update habit with new streak data
     const success = await updateHabit(
       habit.name,
       habit.daysPerWeek,
@@ -113,11 +116,12 @@ const HomeScreen = ({navigation}) => {
       newStreakData.currentStreak,
       newStreakData.bestStreak,
       newStreakData.totalDaysCompleted,
-    ); // update habit with new streak data
+    );
 
+    // retrieve new habit data
     if (success) {
       getDataObjects(asyncStorageKeys, setHabits);
-    } // retrieve new habit data
+    }
   };
 
   const calculateIfHabitRequiresCompletionToday = (
@@ -167,15 +171,15 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.habitsContainer}>
           {asyncStorageKeys.length > 0 && habits.length > 0 && (
             <View style={styles.todaysHabitContainer}>
-              <Text style={styles.habitNameText}>
-                Habits that need to be completed today:
-              </Text>
+              <Text style={styles.habitNameText}>Todays required habits:</Text>
               {habitsToCompleteToday.length > 0 ? (
                 habitsToCompleteToday.map(habit => {
                   return <Text style={styles.text}>{habit}</Text>;
                 })
               ) : (
-                <Text style={styles.text}>All complete today, well done!</Text>
+                <Text style={[styles.text, styles.centeredText]}>
+                  All complete today, well done!
+                </Text>
               )}
             </View>
           )}
@@ -265,7 +269,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 15,
     padding: 20,
-    backgroundColor: '#8ecae6',
+    backgroundColor: theme.mainColour,
     overflow: 'hidden',
     elevation: 2,
   },
