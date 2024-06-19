@@ -14,6 +14,7 @@ export const calculateCurrentStreak = (
   let streak: number = 0;
   let possibleBestStreak: number = 0;
   let dateToCheckStreakFromString: string = ascendingCompletedDays[0];
+  let dateCurrentWeekOfStreakStartedFrom: string = '';
   let lastDateStreakAchieved: string;
   if (ascendingCompletedDays.length > 0) {
     lastDateStreakAchieved = [
@@ -21,9 +22,11 @@ export const calculateCurrentStreak = (
     ];
   }
   let daysSinceMissedDate: number = 0;
+  let dayStreakStartedOn: string = '';
 
   // Check if there is a streak within the allowed missing days
   while (ascendingCompletedDays.length > 0) {
+    dayStreakStartedOn = getDayFromDate(ascendingCompletedDays[0]);
     // Setup array of with 1 weeks worth of dates starting from first date in completedDays
     let weeksDates: string[] = [];
 
@@ -31,7 +34,17 @@ export const calculateCurrentStreak = (
       weeksDates.push(dayIncrement(dateToCheckStreakFromString, day));
     }
 
-    dateToCheckStreakFromString = dayIncrement(dateToCheckStreakFromString, 7);
+    // Check if the next week of streak starts in the future
+    if (
+      new Date(dayIncrement(dateToCheckStreakFromString, 7)) <=
+      getCurrentLocalDate()
+    ) {
+      dateToCheckStreakFromString = dayIncrement(
+        dateToCheckStreakFromString,
+        7,
+      );
+    }
+    dateCurrentWeekOfStreakStartedFrom = dateToCheckStreakFromString;
 
     let weeksMissedDates: number = 0;
 
@@ -73,6 +86,7 @@ export const calculateCurrentStreak = (
 
         streak = 0;
         dateToCheckStreakFromString = ascendingCompletedDays[0];
+        dayStreakStartedOn = getDayFromDate(ascendingCompletedDays[0]);
 
         return false;
       }
@@ -100,11 +114,12 @@ export const calculateCurrentStreak = (
       ) - 2;
 
     if (daysBetweenLastDateHabitAchievedAndToday > allowedMissingDays) {
-      // If streak is not active, check for possible best streak and subtract daysSinceMissedDate then set streak to 0
+      // If streak is not active, check for possible best streak and subtract daysSinceMissedDate to check for possible best streak then set streak to 0
       if (streak - daysSinceMissedDate >= possibleBestStreak) {
         possibleBestStreak = streak - daysSinceMissedDate;
       }
       streak = 0;
+      dayStreakStartedOn = '';
     } else {
       // streak = streak + daysBetweenLastDateHabitAchievedAndToday;
     }
@@ -118,6 +133,8 @@ export const calculateCurrentStreak = (
     bestStreak: possibleBestStreak,
     currentStreak: streak,
     totalDaysCompleted: completedDays.length,
+    dayStreakStartedOn: dayStreakStartedOn,
+    dateCurrentWeekOfStreakStartedFrom: dateCurrentWeekOfStreakStartedFrom,
   };
 };
 
@@ -141,8 +158,11 @@ export const updateHabit = async (
 };
 
 export const dayIncrement = (date, days) => {
-  const initialDate = new Date(date);
+  if (date === '') {
+    return;
+  }
 
+  const initialDate = new Date(date);
   let utcDate = Date.UTC(
     initialDate.getUTCFullYear(),
     initialDate.getUTCMonth(),
@@ -153,10 +173,28 @@ export const dayIncrement = (date, days) => {
   );
 
   const oneDay = 60 * 60 * 24 * 1000;
-
   utcDate += oneDay * days;
-
   let nextDate = new Date(utcDate);
 
   return nextDate.toISOString().slice(0, 10);
+};
+
+const getDayFromDate = date => {
+  let day = new Date(date).getDay();
+  return [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ][day];
+};
+
+export const getCurrentLocalDate = () => {
+  const timezoneOffset = new Date().getTimezoneOffset();
+  const localTime = new Date(new Date().getTime() - timezoneOffset * 1000 * 60);
+
+  return localTime;
 };

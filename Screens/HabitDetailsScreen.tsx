@@ -27,6 +27,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
   const [completedDays, setCompletedDays] = useState([]);
   const [currentStreak, setCurrentStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
+  const [dayStreakStartedOn, setDayStreakStartedOn] = useState('');
   const [totalDaysCompleted, setTotalDaysCompleted] = useState(0);
   const [futureDateError, setFutureDateError] = useState(false);
   const [confirmDeleteModalVisible, setConfirmDeleteModalVisible] =
@@ -66,6 +67,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       setBestStreak(newStreakData.bestStreak);
       setCurrentStreak(newStreakData.currentStreak);
       setTotalDaysCompleted(newStreakData.totalDaysCompleted);
+      setDayStreakStartedOn(newStreakData.dayStreakStartedOn);
 
       updateHabit();
     }
@@ -73,11 +75,16 @@ export const HabitDetailsScreen = ({navigation, route}) => {
 
   const updateCompletedDays = (day: string) => {
     setFutureDateError(false);
+    const timezoneOffset = new Date().getTimezoneOffset();
+    const localTime = new Date(
+      new Date().getTime() - timezoneOffset * 1000 * 60,
+    );
+
     if (completedDays === undefined) {
       setCompletedDays([day]); // add first day
     } else if (completedDays.includes(day)) {
       setCompletedDays(completedDays.filter(item => item !== day)); // remove day
-    } else if (new Date() <= new Date(day)) {
+    } else if (localTime <= new Date(day)) {
       setFutureDateError(true); // catch future date
     } else {
       setCompletedDays(prev => [...prev, day]); // add new day
@@ -148,6 +155,11 @@ export const HabitDetailsScreen = ({navigation, route}) => {
         <View style={styles.container}>
           <Text style={styles.title}>{habit.name}</Text>
           <Text style={styles.text}>Current streak: {currentStreak}</Text>
+          <Text style={styles.text}>
+            {dayStreakStartedOn !== ''
+              ? `Started on: ${dayStreakStartedOn}`
+              : 'Started on: Unstarted'}
+          </Text>
           <Text style={styles.text}>Best streak: {bestStreak}</Text>
           <Text style={styles.text}>Weekly aim: {habit.daysPerWeek}</Text>
           <Text style={styles.text}>

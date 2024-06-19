@@ -12,11 +12,18 @@ import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {getAllKeys, getDataObjects} from '../utils/AsyncStorage';
-import {calculateCurrentStreak, updateHabit} from '../utils/HabitStreakHelper';
+import {
+  calculateCurrentStreak,
+  dayIncrement,
+  getCurrentLocalDate,
+  updateHabit,
+} from '../utils/HabitStreakHelper';
+import {theme} from '../utils/Theme';
 
 const HomeScreen = ({navigation}) => {
   const [habits, setHabits] = useState([]);
   const [asyncStorageKeys, setAsyncStorageKeys] = useState([]);
+  const [habitsToCompleteToday, setHabitsToCompleteToday] = useState([]);
 
   const isFocused = useIsFocused();
   const windowHeight = Dimensions.get('window').height;
@@ -33,6 +40,7 @@ const HomeScreen = ({navigation}) => {
 
   useEffect(() => {
     let habitsUpdated: number = 0;
+    let newHabitsToCompleteToday = [];
 
     habits.forEach(habit => {
       const newStreakData = calculateCurrentStreak(
@@ -57,15 +65,22 @@ const HomeScreen = ({navigation}) => {
           habitsUpdated++;
         }
       }
+
+      calculateIfHabitRequiresCompletionToday(
+        habit,
+        newHabitsToCompleteToday,
+        newStreakData.dateCurrentWeekOfStreakStartedFrom,
+      );
     });
 
     if (habitsUpdated > 0) {
       getDataObjects(asyncStorageKeys, setHabits);
     }
+    setHabitsToCompleteToday(newHabitsToCompleteToday);
   }, [habits]);
 
   const formatTodaysDate = () => {
-    var today = new Date();
+    var today = getCurrentLocalDate();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
@@ -73,13 +88,11 @@ const HomeScreen = ({navigation}) => {
     return yyyy + '-' + mm + '-' + dd;
   };
 
-  const checkTodayCompleted = completedDays => {
-    return completedDays.includes(formatTodaysDate());
-  };
-
   const updateCompletedDays = async (habit: any) => {
     const day: string = formatTodaysDate();
-    const dateCompleted: boolean = checkTodayCompleted(habit.completedDays);
+    const dateCompleted: boolean = habit.completedDays.includes(
+      formatTodaysDate(),
+    );
     let newCompletedDays: string[] = [];
 
     if (dateCompleted) {
@@ -88,11 +101,14 @@ const HomeScreen = ({navigation}) => {
       newCompletedDays = habit.completedDays.slice();
       newCompletedDays.push(day); // add day
     }
+
+    // calculate new streak data
     const newStreakData = calculateCurrentStreak(
       newCompletedDays,
       habit.daysPerWeek,
-    ); // calculate new streak data
+    );
 
+    // update habit with new streak data
     const success = await updateHabit(
       habit.name,
       habit.daysPerWeek,
@@ -100,11 +116,52 @@ const HomeScreen = ({navigation}) => {
       newStreakData.currentStreak,
       newStreakData.bestStreak,
       newStreakData.totalDaysCompleted,
-    ); // update habit with new streak data
+    );
 
+    // retrieve new habit data
     if (success) {
       getDataObjects(asyncStorageKeys, setHabits);
-    } // retrieve new habit data
+    }
+  };
+
+  const calculateIfHabitRequiresCompletionToday = (
+    habit,
+    newHabitsToCompleteToday,
+    dateCurrentWeekOfStreakStartedFrom,
+  ) => {
+    // If streak is 0 habit needs to be done today
+    if (habit.currentStreak === 0) {
+      newHabitsToCompleteToday.push(habit.name);
+    }
+
+    // If today is included in completed days, habit doesn't need to be done today
+    if (habit.completedDays.includes(formatTodaysDate())) {
+      return;
+    }
+
+    // Create an array of the current streak weeks dates that are not in the future and calculate days left in the streak
+    let weeksDates: String[] = [];
+    let daysLeftInStreak: number = 1;
+    for (let day = 0; day < 7; day++) {
+      const date = dayIncrement(dateCurrentWeekOfStreakStartedFrom, day);
+      if (new Date(date) < getCurrentLocalDate()) {
+        weeksDates.push(dayIncrement(dateCurrentWeekOfStreakStartedFrom, day));
+      } else {
+        daysLeftInStreak++;
+      }
+    }
+
+    // Calculate how many days there are left to complete
+    let daysToCompleteThisWeek: number = habit.daysPerWeek;
+    weeksDates.forEach(day => {
+      if (habit.completedDays.includes(day)) {
+        daysToCompleteThisWeek--;
+      }
+    });
+
+    if (daysToCompleteThisWeek === daysLeftInStreak) {
+      newHabitsToCompleteToday.push(habit.name);
+    }
   };
 
   return (
@@ -112,6 +169,21 @@ const HomeScreen = ({navigation}) => {
       <ScrollView
         contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
         <View style={styles.habitsContainer}>
+          {asyncStorageKeys.length > 0 && habits.length > 0 && (
+            <View style={styles.todaysHabitContainer}>
+              <Text style={styles.habitNameText}>Todays required habits:</Text>
+              {habitsToCompleteToday.length > 0 ? (
+                habitsToCompleteToday.map(habit => {
+                  return <Text style={styles.text}>{habit}</Text>;
+                })
+              ) : (
+                <Text style={[styles.text, styles.centeredText]}>
+                  All complete today, well done!
+                </Text>
+              )}
+            </View>
+          )}
+
           {asyncStorageKeys.length > 0 && habits.length > 0 ? (
             habits.map(habit => (
               <TouchableOpacity
@@ -140,7 +212,7 @@ const HomeScreen = ({navigation}) => {
                       onPress={() => {
                         updateCompletedDays(habit);
                       }}>
-                      {checkTodayCompleted(habit.completedDays) ? (
+                      {habit.completedDays.includes(formatTodaysDate()) ? (
                         <View style={styles.radioInner} />
                       ) : null}
                     </TouchableOpacity>
@@ -197,7 +269,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 15,
     padding: 20,
-    backgroundColor: '#8ecae6',
+    backgroundColor: theme.mainColour,
     overflow: 'hidden',
     elevation: 2,
   },
@@ -255,7 +327,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {position: 'absolute', bottom: 20, right: 20},
   button: {
-    backgroundColor: '#219ebc',
+    backgroundColor: theme.button,
     width: 75,
     height: 75,
     borderRadius: 100,
@@ -283,6 +355,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   radioInner: {height: 12, width: 12, borderRadius: 6, backgroundColor: '#000'},
+  todaysHabitContainer: {
+    width: '80%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 20,
+    borderRadius: 15,
+    padding: 20,
+    backgroundColor: theme.secondaryColour,
+    overflow: 'hidden',
+    elevation: 2,
+  },
 });
 
 export default HomeScreen;
