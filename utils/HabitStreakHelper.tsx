@@ -27,7 +27,7 @@ export const calculateCurrentStreak = (
   // Check if there is a streak within the allowed missing days
   while (ascendingCompletedDays.length > 0) {
     dayStreakStartedOn = getDayFromDate(ascendingCompletedDays[0]);
-    // Setup array of with 1 weeks worth of dates starting from first date in completedDays
+    // Setup array with 1 weeks worth of dates starting from first date in completedDays
     let weeksDates: string[] = [];
 
     for (let day = 0; day < 7; day++) {
@@ -54,8 +54,8 @@ export const calculateCurrentStreak = (
         return false;
       }
 
-      // Check if date is past today date
-      if (date > new Date().toISOString().slice(0, 10)) {
+      // Check if date is past todays date
+      if (new Date(date) > getCurrentLocalDate()) {
         return false;
       }
 
@@ -197,4 +197,13 @@ export const getCurrentLocalDate = () => {
   const localTime = new Date(new Date().getTime() - timezoneOffset * 1000 * 60);
 
   return localTime;
+};
+
+export const formatTodaysDate = () => {
+  var today = getCurrentLocalDate();
+  var dd = today.getUTCDate().toString().padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  return yyyy + '-' + mm + '-' + dd;
 };

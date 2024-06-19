@@ -15,6 +15,7 @@ import {getAllKeys, getDataObjects} from '../utils/AsyncStorage';
 import {
   calculateCurrentStreak,
   dayIncrement,
+  formatTodaysDate,
   getCurrentLocalDate,
   updateHabit,
 } from '../utils/HabitStreakHelper';
@@ -78,15 +79,6 @@ const HomeScreen = ({navigation}) => {
     }
     setHabitsToCompleteToday(newHabitsToCompleteToday);
   }, [habits]);
-
-  const formatTodaysDate = () => {
-    var today = getCurrentLocalDate();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-
-    return yyyy + '-' + mm + '-' + dd;
-  };
 
   const updateCompletedDays = async (habit: any) => {
     const day: string = formatTodaysDate();
