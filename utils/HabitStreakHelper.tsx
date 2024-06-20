@@ -23,6 +23,7 @@ export const calculateCurrentStreak = (
   }
   let daysSinceMissedDate: number = 0;
   let dayStreakStartedOn: string = '';
+  let weeksMissedDates: number = 0;
 
   // Check if there is a streak within the allowed missing days
   while (ascendingCompletedDays.length > 0) {
@@ -46,7 +47,7 @@ export const calculateCurrentStreak = (
     }
     dateCurrentWeekOfStreakStartedFrom = dateToCheckStreakFromString;
 
-    let weeksMissedDates: number = 0;
+    weeksMissedDates = 0;
 
     weeksDates.every(date => {
       // If completedDays is empty exit function
@@ -113,7 +114,10 @@ export const calculateCurrentStreak = (
         Math.abs((new Date(lastDateStreakAchieved) - new Date()) / oneDay),
       ) - 2;
 
-    if (daysBetweenLastDateHabitAchievedAndToday > allowedMissingDays) {
+    if (
+      daysBetweenLastDateHabitAchievedAndToday + weeksMissedDates >
+      allowedMissingDays
+    ) {
       // If streak is not active, check for possible best streak and subtract daysSinceMissedDate to check for possible best streak then set streak to 0
       if (streak - daysSinceMissedDate >= possibleBestStreak) {
         possibleBestStreak = streak - daysSinceMissedDate;
@@ -124,6 +128,7 @@ export const calculateCurrentStreak = (
       // streak = streak + daysBetweenLastDateHabitAchievedAndToday;
     }
   }
+
   // Check for possible best streak in active streak
   if (streak > possibleBestStreak) {
     possibleBestStreak = streak;
