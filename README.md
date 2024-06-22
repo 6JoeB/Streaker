@@ -55,7 +55,7 @@ Habit tracker with a widget that shows your current streak
 - [x] 6: Clicking completed today between 12am and 1am crashes app
 - [ ] 7: Property 'daysPerWeek' does not exist on type 'never'
 - [ ] 8: Typescript type refactoring
-- [ ] 9: Day started on becoming last day achieved
+- [ ] 9: Day started on becoming last day achieved. Possibly fixed, cannot recreate.
 
 ### NTH
 
@@ -71,11 +71,13 @@ Habit tracker with a widget that shows your current streak
 
 ### Ideation
 
+- [ ] Todays required habits should show how many days of streak are at risk
 - [ ] Once past certain amount of days show years/months/weeks etc
 - [ ] Cumulative days streaks as a score vs previous best
 - [ ] Add habit screen name text input should slow rotate through suggestions as placeholders
 - [ ] After successful edit show success toast
 - [ ] Habits can have:
+  - [ ] Optional description
   - [ ] Colour
   - [ ] Emoji https://www.npmjs.com/package/emoji-picker-react
   - [ ] Complete total minutes per week instead of days
@@ -84,11 +86,12 @@ Habit tracker with a widget that shows your current streak
 - [ ] Streak time leaderboard
 - [ ] Show cumulative days/weeks spend achieving habits
 - [ ] Change DB
-- [ ] Changing habit frequency doesnt disrupt old streak at other frequency
+- [ ] Changing habit frequency doesnt disrupt old streak at other frequency?
 - [ ] Google analytics on habit creation
 - [ ] Completed days should be out of possible days since the habit was started, this could be optional to see
 - [ ] Compact and detailed view for home screen habit cards
 - [ ] Improve UI
+- [ ] Graphs to see habit data
 
 ### Archived
 
