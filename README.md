@@ -68,10 +68,10 @@ Habit tracker with a widget that shows your current streak
 - [ ] Have option for required minutes per day
 - [ ] Error message for future dates should not push buttons down when it shows
 - [ ] Colour picker for habits
+- [x] Todays required habits should show how many days of streak are at risk
 
 ### Ideation
 
-- [ ] Todays required habits should show how many days of streak are at risk
 - [ ] Once past certain amount of days show years/months/weeks etc
 - [ ] Cumulative days streaks as a score vs previous best
 - [ ] Add habit screen name text input should slow rotate through suggestions as placeholders

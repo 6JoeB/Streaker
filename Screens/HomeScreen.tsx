@@ -25,6 +25,7 @@ const HomeScreen = ({navigation}) => {
   const [habits, setHabits] = useState([]);
   const [asyncStorageKeys, setAsyncStorageKeys] = useState([]);
   const [habitsToCompleteToday, setHabitsToCompleteToday] = useState([]);
+  const [numberOfDaysAtRiskToday, setNumberOfDaysAtRiskToday] = useState(0);
 
   const isFocused = useIsFocused();
   const windowHeight = Dimensions.get('window').height;
@@ -42,6 +43,7 @@ const HomeScreen = ({navigation}) => {
   useEffect(() => {
     let habitsUpdated: number = 0;
     let newHabitsToCompleteToday = [];
+    let newNumberOfDaysAtRiskToday: number = 0;
 
     habits.forEach(habit => {
       const newStreakData = calculateCurrentStreak(
@@ -67,7 +69,7 @@ const HomeScreen = ({navigation}) => {
         }
       }
 
-      calculateIfHabitRequiresCompletionToday(
+      newNumberOfDaysAtRiskToday += calculateIfHabitRequiresCompletionToday(
         habit,
         newHabitsToCompleteToday,
         newStreakData.dateCurrentWeekOfStreakStartedFrom,
@@ -78,6 +80,7 @@ const HomeScreen = ({navigation}) => {
       getDataObjects(asyncStorageKeys, setHabits);
     }
     setHabitsToCompleteToday(newHabitsToCompleteToday);
+    setNumberOfDaysAtRiskToday(newNumberOfDaysAtRiskToday);
   }, [habits]);
 
   const updateCompletedDays = async (habit: any) => {
@@ -118,21 +121,26 @@ const HomeScreen = ({navigation}) => {
 
   const calculateIfHabitRequiresCompletionToday = (
     habit,
-    newHabitsToCompleteToday,
-    dateCurrentWeekOfStreakStartedFrom,
+    newHabitsToCompleteToday: string[],
+    dateCurrentWeekOfStreakStartedFrom: string,
   ) => {
+    let newNumberOfDaysAtRiskToday: number = 0;
+
     // If streak is 0 habit needs to be done today
-    if (habit.currentStreak === 0) {
+    if (
+      habit.currentStreak === 0 &&
+      !newHabitsToCompleteToday.includes(habit.name)
+    ) {
       newHabitsToCompleteToday.push(habit.name);
     }
 
     // If today is included in completed days, habit doesn't need to be done today
     if (habit.completedDays.includes(formatTodaysDate())) {
-      return;
+      return newNumberOfDaysAtRiskToday;
     }
 
     // Create an array of the current streak weeks dates that are not in the future and calculate days left in the streak
-    let weeksDates: String[] = [];
+    let weeksDates: string[] = [];
     let daysLeftInStreak: number = 1;
     for (let day = 0; day < 7; day++) {
       const date = dayIncrement(dateCurrentWeekOfStreakStartedFrom, day);
@@ -151,9 +159,15 @@ const HomeScreen = ({navigation}) => {
       }
     });
 
-    if (daysToCompleteThisWeek === daysLeftInStreak) {
+    if (
+      daysToCompleteThisWeek === daysLeftInStreak &&
+      !newHabitsToCompleteToday.includes(habit.name)
+    ) {
       newHabitsToCompleteToday.push(habit.name);
+      newNumberOfDaysAtRiskToday = habit.currentStreak;
     }
+
+    return newNumberOfDaysAtRiskToday;
   };
 
   return (
@@ -165,13 +179,22 @@ const HomeScreen = ({navigation}) => {
             <View style={styles.todaysHabitContainer}>
               <Text style={styles.habitNameText}>Todays required habits:</Text>
               {habitsToCompleteToday.length > 0 ? (
-                habitsToCompleteToday.map(habit => {
-                  return <Text style={styles.text}>{habit}</Text>;
-                })
+                <View>
+                  {habitsToCompleteToday.map(habit => {
+                    return (
+                      <View>
+                        <Text style={styles.text}>{habit}</Text>
+                      </View>
+                    );
+                  })}
+                  {numberOfDaysAtRiskToday > 0 && (
+                    <Text style={[styles.text, styles.mt5]}>
+                      Don't lose {numberOfDaysAtRiskToday} days of progress!
+                    </Text>
+                  )}
+                </View>
               ) : (
-                <Text style={[styles.text, styles.centeredText]}>
-                  All complete today, well done!
-                </Text>
+                <Text style={styles.text}>All complete today, well done!</Text>
               )}
             </View>
           )}
@@ -337,6 +360,9 @@ const styles = StyleSheet.create({
   },
   mb10: {
     marginBottom: 10,
+  },
+  mt5: {
+    marginTop: 5,
   },
   radioOuter: {
     height: 24,
