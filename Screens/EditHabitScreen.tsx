@@ -16,6 +16,7 @@ import {
   removeValue,
   storeDataObject,
 } from '../utils/AsyncStorage';
+import {theme} from '../utils/Theme';
 
 const EditHabitScreen = ({navigation, route}) => {
   const [habit, setHabit] = useState({});
@@ -261,7 +262,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   button: {
-    backgroundColor: '#219ebc',
+    backgroundColor: theme.button,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
@@ -272,7 +273,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonRed: {
-    backgroundColor: '#d63633',
+    backgroundColor: theme.buttonRed,
   },
   mb10: {
     marginBottom: 10,

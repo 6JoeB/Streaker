@@ -185,7 +185,9 @@ const HomeScreen = ({navigation}) => {
                     name: habit.name,
                   })
                 }>
-                <Text style={styles.habitNameText}>{habit.name}</Text>
+                <Text style={[styles.habitNameText, styles.centeredText]}>
+                  {habit.name}
+                </Text>
                 <View>
                   <View style={styles.habitRow}>
                     <Text style={styles.text}>
@@ -313,7 +315,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 21,
     letterSpacing: 0.25,
-    textAlign: 'center',
     fontWeight: 'bold',
     marginBottom: 5,
   },
