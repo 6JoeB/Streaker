@@ -102,10 +102,14 @@ export const calculateCurrentStreak = (
   // Check if the gap between the last date achieved and today is larger than allowedMissingDays and thus the streak has ended
   if (lastDateStreakAchieved !== undefined) {
     const oneDay: number = 24 * 60 * 60 * 1000;
+    const currentLocalDateAtMidnight = new Date(
+      getCurrentLocalDate() -
+        getCurrentLocalDate().getUTCHours() * 60 * 60 * 1000,
+    );
+
     const daysBetweenLastDateHabitAchievedAndToday: number = Math.round(
       Math.abs(
-        (new Date(lastDateStreakAchieved) -
-          new Date(getCurrentLocalDate().setHours(1, 0, 0, 0))) /
+        (new Date(lastDateStreakAchieved) - currentLocalDateAtMidnight) /
           oneDay,
       ),
     );
@@ -116,6 +120,7 @@ export const calculateCurrentStreak = (
       if (streak >= possibleBestStreak) {
         possibleBestStreak = streak;
       }
+
       streak = 0;
       dayStreakStartedOn = '';
     } else {
