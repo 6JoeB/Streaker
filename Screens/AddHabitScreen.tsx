@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {useIsFocused} from '@react-navigation/native';
 
 import {getAllKeys, storeDataObject} from '../utils/AsyncStorage';
+import {theme} from '../utils/Theme';
 
 const AddHabitScreen = ({navigation}) => {
   const [habitName, setHabitName] = useState('');
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   button: {
-    backgroundColor: '#219ebc',
+    backgroundColor: theme.button,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonRed: {
-    backgroundColor: '#d63633',
+    backgroundColor: theme.buttonRed,
   },
 });
 

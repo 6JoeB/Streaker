@@ -18,6 +18,7 @@ import {
 } from '../utils/AsyncStorage';
 import {calculateCurrentStreak} from '../utils/HabitStreakHelper';
 import {StreakWidget} from '../widgets/StreakWidget';
+import {theme} from '../utils/Theme';
 
 export const HabitDetailsScreen = ({navigation, route}) => {
   const {name} = route.params;
@@ -172,7 +173,10 @@ export const HabitDetailsScreen = ({navigation, route}) => {
             }}
             markedDates={generateMarkedDates()}
             firstDay={1}
-            theme={{todayTextColor: 'black', todayBackgroundColor: '#d9d9d9'}}
+            theme={{
+              todayTextColor: 'black',
+              todayBackgroundColor: '#d9d9d9',
+            }}
           />
           {futureDateError && (
             <Text style={[styles.text, styles.warningText]}>
@@ -254,7 +258,7 @@ const styles = StyleSheet.create({
   text: {
     color: 'black',
     fontSize: 16,
-    lineHeight: 21,
+    lineHeight: 20,
     letterSpacing: 0.25,
     marginBottom: 3,
   },
@@ -274,7 +278,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   button: {
-    backgroundColor: '#219ebc',
+    backgroundColor: theme.button,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
@@ -285,7 +289,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonRed: {
-    backgroundColor: '#d63633',
+    backgroundColor: theme.buttonRed,
   },
   calendar: {
     marginTop: 10,
