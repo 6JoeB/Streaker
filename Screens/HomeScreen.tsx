@@ -28,7 +28,7 @@ const HomeScreen = ({navigation}) => {
   const [numberOfDaysAtRiskToday, setNumberOfDaysAtRiskToday] = useState(0);
 
   const isFocused = useIsFocused();
-  const windowHeight = Dimensions.get('window').height;
+  const windowHeight: number = Dimensions.get('window').height;
 
   useEffect(() => {
     if (isFocused) {

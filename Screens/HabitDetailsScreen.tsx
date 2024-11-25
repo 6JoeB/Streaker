@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -159,7 +160,7 @@ export const HabitDetailsScreen = ({navigation, route}) => {
           <Text style={styles.text}>
             {dayStreakStartedOn !== ''
               ? `Started on: ${dayStreakStartedOn}`
-              : 'Started on: Unstarted'}
+              : 'Started on: Not Started'}
           </Text>
           <Text style={styles.text}>Best streak: {bestStreak}</Text>
           <Text style={styles.text}>Weekly aim: {habit.daysPerWeek}</Text>
