@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {useIsFocused} from '@react-navigation/native';
-import {requestWidgetUpdate} from 'react-native-android-widget';
 
 import {
   getDataObject,
@@ -17,7 +16,6 @@ import {
   setObjectValue,
 } from '../utils/AsyncStorage';
 import {calculateCurrentStreak} from '../utils/HabitStreakHelper';
-import {StreakWidget} from '../widgets/StreakWidget';
 import {theme} from '../utils/Theme';
 
 export const HabitDetailsScreen = ({navigation, route}) => {
@@ -49,11 +47,6 @@ export const HabitDetailsScreen = ({navigation, route}) => {
       setTotalDaysCompleted(habit.totalDaysCompleted);
       setCurrentStreak(habit.currentStreak);
       setCompletedDays(habit.completedDays);
-
-      // requestWidgetUpdate({
-      //   widgetName: 'Streak',
-      //   renderWidget: () => <StreakWidget habit={habit} />,
-      // });
 
       setLoading(false);
     }

@@ -1,4 +1,3 @@
 <resources>
     <string name="app_name">Streaker</string>
-    <string name="widget_streak_description" translatable="false">This widget will show you your active streak for a habit</string>
 </resources>
